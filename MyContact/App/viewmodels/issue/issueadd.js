@@ -1,5 +1,6 @@
-﻿define(['services/logger', 'services/issue/issuedatacontext', 'plugins/router', 'plugins/dialog'], function (logger, issuedatacontext, router, app) {
+﻿define(['services/logger', 'services/issue/issuedatacontext', 'services/user/userdatacontext', 'plugins/router', 'plugins/dialog'], function (logger, issuedatacontext, router, app) {
     var issue = ko.observable();
+    var issueUsers = ko.observable();
     var title = 'Add Issue';
     var isSaving = ko.observable(false);
 
@@ -16,6 +17,7 @@
 
     //Activate method will call while page loading
     function activate() {
+        initLookups();
         issuedatacontext.createIssue(issue);
     }
     //Deactivate method will call while page unloading
@@ -23,14 +25,20 @@
 
     };
 
+    initLookups = function () {
+        var result = issuedatacontext.getAllUserDetails(issueUsers);
+        logger.log(title + ' Issue data fetched', null, title, true);
+    }
 
     //Save Command
     var save = function () {
         isSaving(true);
+   
         issuedatacontext.saveChanges()
             .then(goToEditView).fin(complete);
 
         function goToEditView(result) {
+            alert(router);
             router.navigate('issue');
         }
 
@@ -65,6 +73,7 @@
         canDeactivate: canDeactivate,
         deactivate: deactivate,
         issue: issue,
+        issueUsers: issueUsers,
         title: title,
         canSave: canSave,
         cancel: cancel,

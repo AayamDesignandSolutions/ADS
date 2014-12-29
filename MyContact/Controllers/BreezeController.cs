@@ -37,12 +37,22 @@ namespace MyContact.Controllers
             return _contextProvider.Context.Users;
 
         }
+
         [HttpGet]
         public IQueryable<Issue> Issues()
         {
             return _contextProvider.Context.Issues;
 
         }
+        [HttpGet]
+        public object Lookups()
+        {
+            var users = _contextProvider.Context.Users;
+            var issues = _contextProvider.Context.Issues;
+            return new { users, issues };
+        }
+
+
         [HttpPost]
         public SaveResult SaveChanges(JObject saveBundle)
         {

@@ -10,8 +10,7 @@
     //Activate method will call while page loading
     function activate() {
         var result = issuedatacontext.getAllIssueDetails(issues);
-        alert(result);
-        alert(result.length);
+     
 
         logger.log(title + ' View Activated', null, title, true);
         return true;

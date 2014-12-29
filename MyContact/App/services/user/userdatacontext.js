@@ -15,7 +15,7 @@ define([
         //This method get all the users available in the database and load the data into convtactObservable variable.
         //Knockout framework will communicate these information to UI (html)
         var getAllUserDetails = function (userObservable) {
-
+       
             var query = EntityQuery.from('Users')
                 .select('id, userName, password, active')
                 .orderBy('id');
@@ -33,7 +33,7 @@ define([
                 }
                 log('Retrieved [' + entityNames.user + '] from remote data source',
                     data, true);
-
+             
             }
         };
 

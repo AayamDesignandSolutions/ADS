@@ -15,9 +15,10 @@ define([
         //This method get all the users available in the database and load the data into convtactObservable variable.
         //Knockout framework will communicate these information to UI (html)
         var getAllIssueDetails = function (issueObservable) {
+         
 
             var query = EntityQuery.from('Issues')
-                .select('id,issueSubject,issueDetails,assignedTo,createdDate,user')
+                .select('id,issueSubject,issueDetails, assignedTo, createdDate, user')
                 .orderBy('id');
            
             return manager.executeQuery(query)
@@ -38,6 +39,30 @@ define([
 
             }
         };
+
+        var getAllUserDetails = function (userObservable) {
+         
+            var query = EntityQuery.from('Users')
+                .select('id, userName, active')
+                .orderBy('id');
+
+            return manager.executeQuery(query)
+                        .then(querySucceeded)
+                        .fail(queryFailed);
+
+            function querySucceeded(data) {
+                var list = partialMapper.mapDtosToEntities(
+                    manager, data.results, entityNames.user, 'id');
+
+                if (userObservable) {
+                    userObservable(list);
+                }
+                log('Retrieved [' + entityNames.user + '] from remote data source',
+                    data, true);
+              
+            }
+        };
+
 
         //This method get all the users available in the database and load the data into convtactObservable variable.        
         var getAllIssueDetailsWithSearch = function (issueObservable, search) {
@@ -146,8 +171,7 @@ define([
             logError(msg, error);
             throw error;
         }
-
-
+        
         function log(msg, data, showToast) {
             logger.log(msg, data, system.getModuleId(issuedatacontext), showToast);
         }
@@ -170,7 +194,7 @@ define([
 
         //This method call the breeze api service and get a request issue for edit
         var getAIssueDetail = function (issueId, issueObservable) {
-
+         
             return manager.fetchEntityByKey(
                entityNames.issue, issueId, true)
                .then(fetchSucceeded)
@@ -178,11 +202,13 @@ define([
 
             function fetchSucceeded(data) {
                 var s = data.entity;
+            
                 return s.isPartial() ? refreshissue(s) : issueObservable(s);
             }
 
             function refreshissue(issue) {
-                return EntityQuery.fromEntities(issue)
+                  
+                    return EntityQuery.fromEntities(issue)
                     .using(manager).execute()
                     .then(querySucceeded)
                     .fail(queryFailed);
@@ -192,11 +218,39 @@ define([
                 var s = data.results[0];
                 s.isPartial(false);
                 log('Retrieved [' + entityNames.issueSubject + '] from remote data source', s, true);
-                return userObservable(s);
+                return issueObservable(s);
             }
         };
+        //var primeData = function () {
+        //    var promise = Q.all([
+        //        getLookups(),
+        //        getAllIssueDetails(null)])
+        //        .then(applyValidators);
 
+        //    return promise.then(success);
 
+        //    function success() {
+        //        issuedatacontext.lookups = {
+        //            users: getLocal('Users', 'userName', true)
+        //        };
+                
+        //        log('Primed data', issuedatacontext.lookups);
+        //    }
+
+        //    function applyValidators() {
+        //        model.applySessionValidators(manager.metadataStore);
+        //    }
+
+        //};
+
+        //function getLocal(resource, ordering, includeNullos) {
+        //    var query = EntityQuery.from(resource)
+        //        .orderBy(ordering);
+        //    if (!includeNullos) {
+        //        query = query.where('id', '!=', 0);
+        //    }
+        //    return manager.executeQueryLocally(query);
+        //}
         ///Properties, Methods
         var issuedatacontext = {
             hasChanges: hasChanges,
@@ -205,8 +259,9 @@ define([
             getAllIssueDetails: getAllIssueDetails,
             createIssue: createIssue,
             getAIssueDetail: getAIssueDetail,
+            getAllUserDetails: getAllUserDetails,
             getAllIssueDetailsWithSearch: getAllIssueDetailsWithSearch
         };
-
+        // primeData: primeData,
         return issuedatacontext;
     });

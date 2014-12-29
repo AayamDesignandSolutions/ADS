@@ -2,21 +2,27 @@
     <header>
         <h2 class="page-title" data-bind="text: title"></h2>
     </header>
-    <div data-bind="with: issue">
-        <div>
-            <label>Name:</label>
-            <input data-bind="value: userName" placeholder="[userName]" />
-        </div>
-        <div>
-            <label>Password:</label>
-            <input data-bind="value: password" placeholder="[password]" />
-        </div>
-
-        <div>
-            <label>Active:</label>
-            <input type="checkbox" data-bind="checked: active" placeholder="[active]" />
-        </div>
-    </div>
+    <table data-bind="with: issue">
+        <tr>
+           <td> <label>Subject:</label></td>
+            <td> <input data-bind="value: issueSubject" placeholder="[subject]" /></td>
+        </tr>
+       <tr>
+          <td>  <label>Details:</label></td>
+             <td> <input data-bind="value: issueDetails" placeholder="[details]" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Assigned to :</td>
+            <td><select data-bind="options: $parent.issueUsers,
+    optionsText: 'userName',
+    value: user,
+    optionsCaption: 'Choose...'">
+            </select></td>
+        </tr>
+    </table>
     <div class="button-margin">
         <button class="btn btn-info"
             data-bind="click: cancel">
