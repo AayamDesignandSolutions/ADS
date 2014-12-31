@@ -28,7 +28,8 @@
                 { route: 'useredit/:id', moduleId: 'user/useredit', title: 'User edit', nav: 0 },
                 { route: 'issue', moduleId: 'issue/issues', title: 'Issue', nav: 3 },
                 { route: 'issueadd', moduleId: 'issue/issueadd', title: 'Issue add', nav: 0 },
-                { route: 'issueedit/:id', moduleId: 'issue/issueedit', title: 'Issue edit', nav: 0 }
+                { route: 'issueedit/:id', moduleId: 'issue/issueedit', title: 'Issue edit', nav: 0 },
+                { route: 'todo', moduleId: 'user/todo', title: 'To Do', nav: 4 }
                 ];
 
             return router.makeRelative({ moduleId: 'viewmodels' }) // router will look here for viewmodels by convention

@@ -1,0 +1,34 @@
+﻿<section>
+    <header>
+        <h2 class="page-title" data-bind="text: title"></h2>
+
+        <div class="search-content">
+            <small>Name: </small>
+            <select data-bind="options: users,
+                optionsText: 'userName',
+                value: searchUser,
+                optionsCaption: 'Choose...'">
+             </select>
+            <button class="btn btn-info"
+                data-bind="click: loadTodo">
+                Load To Do</button>
+             <button class="btn btn-info"
+               data-bind="click: addIssue" >
+                Add</button>
+        </div>
+    </header>
+    <div class="contact-counter">
+        <small data-bind="text: toDos().length"></small>
+        <small>found</small>
+    </div>
+    <section class="view-list" data-bind="foreach: toDos">
+        <article class="contact-content" title="Go to edit">
+            <div title="Go to edit">
+              <small data-bind="text: issueSubject" class="contactName "></small>
+            </div>
+        </article>
+    </section>
+    <footer>
+        <h2 class="contact-footer" style=""></h2>
+    </footer>
+</section>

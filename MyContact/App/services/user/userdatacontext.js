@@ -17,7 +17,7 @@ define([
         var getAllUserDetails = function (userObservable) {
        
             var query = EntityQuery.from('Users')
-                .select('id, userName, password, active')
+                .select('id, userName, password, active, issues')
                 .orderBy('id');
            
             return manager.executeQuery(query)
@@ -36,6 +36,30 @@ define([
              
             }
         };
+
+        var getAllUserDetailsWithTodo = function (userObservable) {
+
+            var query = EntityQuery.from('Users')
+                .select('id, userName, issues')
+                .orderBy('id');
+
+            return manager.executeQuery(query)
+                        .then(querySucceeded)
+                        .fail(queryFailed);
+
+            function querySucceeded(data) {
+                var list = partialMapper.mapDtosToEntities(
+                    manager, data.results, entityNames.user, 'id');
+
+                if (userObservable) {
+                    userObservable(list);
+                }
+                log('Retrieved [' + entityNames.user + '] from remote data source',
+                    data, true);
+
+            }
+        };
+       
 
         //This method get all the users available in the database and load the data into convtactObservable variable.        
         var getAllUserDetailsWithSearch = function (userObservable, search) {
@@ -61,6 +85,7 @@ define([
 
             }
         };
+
 
         //Metabase will sync with model.js 
         function configureBreezeManager() {
@@ -194,15 +219,43 @@ define([
             }
         };
 
+        var getAUserDetailWithTodo = function (userId, userObservable) {
 
+            return manager.fetchEntityByKey(
+               entityNames.user, userId, true)
+               .then(fetchSucceeded)
+               .fail(queryFailed);
+
+            function fetchSucceeded(data) {
+                var s = data.entity;
+                return s.isPartial() ? refreshuser(s) : userObservable(s);
+            }
+
+            function refreshuser(user) {
+                return EntityQuery.fromEntities(user)
+                    .using(manager).execute()
+                    .then(querySucceeded)
+                    .fail(queryFailed);
+            }
+
+            function querySucceeded(data) {
+                var s = data.results[0];
+                s.isPartial(false);
+                log('Retrieved [' + entityNames.user + '] from remote data source', s, true);
+                return userObservable(s);
+            }
+        };
+   
         ///Properties, Methods
         var userdatacontext = {
             hasChanges: hasChanges,
             saveChanges: saveChanges,
             cancelChanges: cancelChanges,
             getAllUserDetails: getAllUserDetails,
+            getAllUserDetailsWithTodo: getAllUserDetailsWithTodo,
             createUser: createUser,
             getAUserDetail: getAUserDetail,
+            getAUserDetailWithTodo: getAUserDetailWithTodo,
             getAllUserDetailsWithSearch: getAllUserDetailsWithSearch
         };
 

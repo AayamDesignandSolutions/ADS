@@ -173,6 +173,7 @@
     <Content Include="App\viewmodels\issue\issueadd.js" />
     <Content Include="App\viewmodels\issue\issueedit.js" />
     <Content Include="App\viewmodels\issue\issues.js" />
+    <Content Include="App\viewmodels\user\todo.js" />
     <Content Include="App\viewmodels\user\useradd.js" />
     <Content Include="App\viewmodels\user\useredit.js" />
     <Content Include="App\viewmodels\user\users.js" />
@@ -185,6 +186,7 @@
     <Content Include="App\views\issue\issueadd.html" />
     <Content Include="App\views\issue\issueedit.html" />
     <Content Include="App\views\issue\issues.html" />
+    <Content Include="App\views\user\todo.html" />
     <Content Include="App\views\user\useradd.html" />
     <Content Include="App\views\user\useredit.html" />
     <Content Include="App\views\user\users.html" />
