@@ -17,7 +17,7 @@ define([
         var getAllUserDetails = function (userObservable) {
        
             var query = EntityQuery.from('Users')
-                .select('id, userName, password, active, issues')
+                .select('id, userName,  active, issues')
                 .orderBy('id');
            
             return manager.executeQuery(query)
@@ -65,7 +65,7 @@ define([
         var getAllUserDetailsWithSearch = function (userObservable, search) {
 
             var query = EntityQuery.from('Users')
-                .select('id, userName, password, active')
+                .select('id, userName,  active')
                 .where('name', 'substringof', search)
                 .orderBy('id');
            
@@ -89,7 +89,7 @@ define([
 
         //Metabase will sync with model.js 
         function configureBreezeManager() {
-            breeze.NamingConvention.camelCase.setAsDefault();
+           // breeze.NamingConvention.camelCase.setAsDefault();
             var mgr = new breeze.EntityManager(config.remoteServiceName);
             
             model.configureMetadataStore(mgr.metadataStore);
@@ -164,7 +164,7 @@ define([
         }
 
         function queryFailed(error) {
-            alert(error.message);
+         
             var msg = '[userdatacontext.js] Error retrieving data. ' + error.message;
             logError(msg, error);
             throw error;

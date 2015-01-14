@@ -127,6 +127,28 @@ footer span {
     padding: 10px 80px;
     font-size: 18px;
 }
+.container {
+  width: 100%;
+  overflow: hidden;
+}
+.usersettings {
+    
+    width: 90%;
+    white-space: nowrap; 
+    height:5%;
+}
+.usersettingsleft {
+    text-align:right;
+  display: table-cell;
+  width: 50%;
+  margin: 0 5%;
+}
+.usersettingsright {
+    text-align:right;
+  display: table-cell;
+  width: 50%;
+  margin: 0 5%;
+}
 
 /***************************/
 /* Boostrap overrides      */

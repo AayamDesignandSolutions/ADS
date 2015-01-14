@@ -60,11 +60,10 @@
           
             if (user.id() == searchUser().id()) {
                 toDouser = user;
-               // alert(toDouser.issues().length);
+              
                 ko.utils.arrayForEach(toDouser.issues(), function (issue) {
                     toDos.push(issue);
-                    //toDos = toDouser.issues();
-                    //alert(toDos.length);
+                  
                 });
             }
         });
@@ -76,7 +75,7 @@
         //        }
         //    });
         //});
-        //alert(toDos().length);
+     
 
         };
 

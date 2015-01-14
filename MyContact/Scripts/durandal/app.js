@@ -109,13 +109,13 @@ define(['durandal/system', 'durandal/viewEngine', 'durandal/composition', 'duran
          */
         setRoot: function(root, transition, applicationHost) {
             var hostElement, settings = { activate:true, transition: transition };
-
+          
             if (!applicationHost || system.isString(applicationHost)) {
                 hostElement = document.getElementById(applicationHost || 'applicationHost');
             } else {
                 hostElement = applicationHost;
             }
-
+          
             if (system.isString(root)) {
                 if (viewEngine.isViewUrl(root)) {
                     settings.view = root;
@@ -125,8 +125,9 @@ define(['durandal/system', 'durandal/viewEngine', 'durandal/composition', 'duran
             } else {
                 settings.model = root;
             }
-
+          
             composition.compose(hostElement, settings);
+           
         }
     };
 

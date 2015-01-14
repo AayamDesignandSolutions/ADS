@@ -5,6 +5,7 @@
 
     //Cancel Command
     var cancel = function (complete) {
+     
         router.navigateBack();
     };
 
@@ -43,10 +44,12 @@
             .then(goToEditView).fin(complete);
 
         function goToEditView(result) {
+          
             router.navigate('');
         }
 
         function complete() {
+          
             isSaving(false);
         }
     };

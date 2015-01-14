@@ -34,6 +34,7 @@ define([
                 if (issueObservable) {
                     issueObservable(list);
                 }
+               
                 log('Retrieved [' + entityNames.issue + '] from remote data source',
                     data, true);
 
@@ -57,7 +58,8 @@ define([
                 if (userObservable) {
                     userObservable(list);
                 }
-                log('Retrieved [' + entityNames.user + '] from remote data source',
+                
+                log('Retrieved [' + entityNames.user + '] from remote data source 2',
                     data, true);
               
             }
@@ -83,7 +85,8 @@ define([
                 if (issueObservable) {
                     issueObservable(list);
                 }
-                log('Retrieved [' + entityNames.issueSubject + '] from remote data source',
+                
+                log('Retrieved [' + entityNames.issueSubject + '] from remote data source 3',
                     data, true);
 
             }
@@ -91,7 +94,7 @@ define([
 
         //Metabase will sync with model.js 
         function configureBreezeManager() {
-            breeze.NamingConvention.camelCase.setAsDefault();
+          //  breeze.NamingConvention.camelCase.setAsDefault();
             var mgr = new breeze.EntityManager(config.remoteServiceName);
             
             model.configureMetadataStore(mgr.metadataStore);
@@ -126,7 +129,9 @@ define([
                 .fail(saveFailed);
 
             function saveSucceeded(saveResult) {
+               
                 log('Saved data Successfully', saveResult, true);
+               
             }
 
             function saveFailed(error) {
@@ -166,7 +171,7 @@ define([
         }
 
         function queryFailed(error) {
-            alert(error.message);
+           
             var msg = '[issuedatacontext.js] Error retrieving data. ' + error.message;
             logError(msg, error);
             throw error;
@@ -202,7 +207,7 @@ define([
 
             function fetchSucceeded(data) {
                 var s = data.entity;
-            
+                
                 return s.isPartial() ? refreshissue(s) : issueObservable(s);
             }
 
@@ -217,7 +222,8 @@ define([
             function querySucceeded(data) {
                 var s = data.results[0];
                 s.isPartial(false);
-                log('Retrieved [' + entityNames.issueSubject + '] from remote data source', s, true);
+               
+                log('Retrieved [' + entityNames.issue + '] from remote data source 4', s, true);
                 return issueObservable(s);
             }
         };

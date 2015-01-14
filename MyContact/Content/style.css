@@ -48,6 +48,15 @@
     line-height: 120%;
 }
 
+/*.social
+{
+    clear: right;
+    margin-top: 24%;
+    margin-bottom: 0%;
+    font-size: 90%;
+    line-height: 10%;
+}*/
+
 .view-list > article:hover h1
 {
     color: white;

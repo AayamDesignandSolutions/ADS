@@ -9,12 +9,13 @@
 
         //#region Internal Methods
         function activate() {
+         
             return boot();
         }
 
         function boot() {
             log('My Contacts Loaded!', null, true);
-
+         
             router.on('router:route:not-found', function (fragment) {
                 logError('No Route Found', fragment, true);
             });

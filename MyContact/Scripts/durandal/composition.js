@@ -539,12 +539,13 @@ define(['durandal/system', 'durandal/viewLocator', 'durandal/binder', 'durandal/
          * @param {object} [bindingContext] The current binding context.
          */
         compose: function (element, settings, bindingContext, fromBinding) {
+           
             compositionCount++;
-
+         
             if(!fromBinding){
                 settings = composition.getSettings(function() { return settings; }, element);
             }
-
+          
             var hostState = getHostState(element);
 
             settings.activeView = hostState.activeView;

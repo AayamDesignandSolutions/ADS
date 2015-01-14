@@ -21,7 +21,6 @@ namespace MyContact.Entities
     
         public int Id { get; set; }
         public string UserName { get; set; }
-        public string Password { get; set; }
         public bool Active { get; set; }
         public System.DateTime CreateDate { get; set; }
     

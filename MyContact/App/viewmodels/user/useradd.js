@@ -31,7 +31,7 @@
             .then(goToEditView).fin(complete);
 
         function goToEditView(result) {
-            alert(router);
+           
             router.navigate('user');
         }
 

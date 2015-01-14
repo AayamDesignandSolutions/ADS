@@ -23,11 +23,11 @@ function boot(app, viewLocator, system, router, logger) {
     system.debug(true);
 
     app.title = 'My Contacts';
-
+   
     app.configurePlugins({
         router: true
     });
-
+ 
     app.start().then(function () {
         toastr.options.positionClass = 'toast-bottom-right';
         toastr.options.backgroundpositionClass = 'toast-bottom-right';
@@ -37,9 +37,12 @@ function boot(app, viewLocator, system, router, logger) {
         // [viewmodel]s/sessions --> [view]s/sessions.html
         // Defaults to viewmodels/views/views. 
         // Otherwise you can pass paths for modules, views, partials
+      
         viewLocator.useConvention();
-
+       
         //Show the app by setting the root view model for our application.
         app.setRoot('viewmodels/shell', 'entrance');
+      
+
     });
 };

@@ -61,6 +61,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Accessor.edmx</DependentUpon>
     </Compile>
+    <Compile Include="AccessorEntities_partial.cs" />
     <Compile Include="Contact.cs">
       <DependentUpon>Accessor.tt</DependentUpon>
     </Compile>

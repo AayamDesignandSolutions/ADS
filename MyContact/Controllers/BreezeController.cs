@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MyContact.Controllers
 {
+    [Authorize]
     [BreezeController]
     public class BreezeController : ApiController
     {

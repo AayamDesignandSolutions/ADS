@@ -30,6 +30,7 @@ define([
                 if (contactObservable) {
                     contactObservable(list);
                 }
+                
                 log('Retrieved [' + entityNames.contact + '] from remote data source',
                     data, true);
 
@@ -95,7 +96,9 @@ define([
                 .fail(saveFailed);
 
             function saveSucceeded(saveResult) {
+                
                 log('Saved data Successfully', saveResult, true);
+              
             }
 
             function saveFailed(error) {

@@ -1,4 +1,4 @@
-﻿define(['services/logger', 'services/issue/issuedatacontext', 'services/user/userdatacontext', 'plugins/router', 'plugins/dialog'], function (logger, issuedatacontext, router, app) {
+﻿define(['services/logger', 'services/issue/issuedatacontext',  'plugins/router', 'plugins/dialog'], function (logger, issuedatacontext, router, app) {
     var issue = ko.observable();
     var issueUsers = ko.observable();
     var title = 'Add Issue';
@@ -38,7 +38,7 @@
             .then(goToEditView).fin(complete);
 
         function goToEditView(result) {
-            alert(router);
+            
             router.navigate('issue');
         }
 
