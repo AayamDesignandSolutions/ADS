@@ -5,13 +5,12 @@
         var Validator = breeze.Validator;
 
         var orderBy = {
-            issue: 'IssueSubject'
+            history: 'Context'
         };
 
         //If more than one entity available, it has to mention here.
         var entityNames = {
-            issue: 'Issue',
-            user: 'User'
+            history: 'History'
         };
 
         var model = {
@@ -24,14 +23,8 @@
         return model;
         
         function configureMetadataStore(metadataStore) {
-          
             metadataStore.registerEntityTypeCtor(
-               'Issue', function () { this.isPartial = false; });
-
-            metadataStore.registerEntityTypeCtor(
-              'User', function () { this.isPartial = false; });
-
-           
+               'History', function () { this.isPartial = false; });
 
             referenceCheckValidator = createReferenceCheckValidator();
             Validator.register(referenceCheckValidator);
@@ -52,8 +45,6 @@
 
         function createNullos(manager) {
             var unchanged = breeze.EntityState.Unchanged;
-            createNullo(entityNames.user);
-
             function createNullo(entityName, values) {
                 var initialValues = values
                     || { name: ' [Select a ' + entityName.toLowerCase() + ']' };

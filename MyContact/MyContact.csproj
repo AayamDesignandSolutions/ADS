@@ -182,6 +182,8 @@
     <Content Include="App\config.js" />
     <Content Include="App\main.js" />
     <Content Include="App\services\breeze.partial-entities.js" />
+    <Content Include="App\services\history\historydatacontext.js" />
+    <Content Include="App\services\history\model.js" />
     <Content Include="App\services\issue\model.js" />
     <Content Include="App\services\issue\issuedatacontext.js" />
     <Content Include="App\services\logger.js" />
@@ -315,6 +317,10 @@
     <Content Include="Views\Account\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CustomAttributes\CustomAttributes.csproj">
+      <Project>{ec76d65e-e657-4115-ad64-486ac41769d1}</Project>
+      <Name>CustomAttributes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyContact.Entities\MyContact.Entities.csproj">
       <Project>{fff4d88e-2e07-4b80-83e5-2d1e906c218d}</Project>
       <Name>MyContact.Entities</Name>

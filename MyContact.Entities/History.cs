@@ -13,15 +13,19 @@ namespace MyContact.Entities
     using System.Collections.Generic;
     using CustomAttributes;
     
-    public partial class Contact
+    public partial class History
     {
-        
         public int Id { get; set; }
         [RequiredForJson]
-        public string Name { get; set; }
+        public string Context { get; set; }
         [RequiredForJson]
-        public string Mobile { get; set; }
+        public string Field { get; set; }
         [RequiredForJson]
-        public string Email { get; set; }
+        public int ContextId { get; set; }
+        [RequiredForJson]
+        public string OldValue { get; set; }
+        [RequiredForJson]
+        public string NewValue { get; set; }
+        public System.DateTime ChangeDate { get; set; }
     }
 }

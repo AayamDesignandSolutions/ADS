@@ -11,6 +11,7 @@ namespace MyContact.Entities
 {
     using System;
     using System.Collections.Generic;
+    using CustomAttributes;
     
     public partial class User
     {
@@ -20,7 +21,9 @@ namespace MyContact.Entities
         }
     
         public int Id { get; set; }
+        [RequiredForJson]
         public string UserName { get; set; }
+        [RequiredForJson]
         public bool Active { get; set; }
         public System.DateTime CreateDate { get; set; }
     

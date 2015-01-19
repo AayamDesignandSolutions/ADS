@@ -11,6 +11,7 @@ define([
         var manager = configureBreezeManager();
         var orderBy = model.orderBy;
         var entityNames = model.entityNames;
+      
 
         //This method get all the users available in the database and load the data into convtactObservable variable.
         //Knockout framework will communicate these information to UI (html)
@@ -121,9 +122,12 @@ define([
             }
         };
 
+      
 
         //This method save the modified/added issue to the datatabase with the help of Breeze framework.        
         var saveChanges = function () {
+           
+
             return manager.saveChanges()
                 .then(saveSucceeded)
                 .fail(saveFailed);
@@ -192,7 +196,6 @@ define([
 
 
         manager.hasChangesChanged.subscribe(function (eventArgs) {
-        
             hasChanges(eventArgs.hasChanges);
         });
 
@@ -207,7 +210,8 @@ define([
 
             function fetchSucceeded(data) {
                 var s = data.entity;
-                
+               
+ 
                 return s.isPartial() ? refreshissue(s) : issueObservable(s);
             }
 

@@ -1,6 +1,7 @@
 ﻿define(['services/logger', 'services/issue/issuedatacontext', 'plugins/router', 'plugins/dialog'], function (logger, issuedatacontext, router, app) {
     var issue = ko.observable();
     var issueUsers = ko.observable();
+  
     var title = 'Edit Issue';
     var isSaving = ko.observable(false);
 
@@ -23,13 +24,14 @@
         if (!(routeData.toString() === ':id')) {
             
             issuedatacontext.getAIssueDetail(routeData, issue);
+
         }
         else {
 
             issuedatacontext.createIssue(issue);
         }
 
-
+        
     }
 
 

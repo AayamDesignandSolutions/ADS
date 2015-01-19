@@ -65,21 +65,22 @@
     <Compile Include="Contact.cs">
       <DependentUpon>Accessor.tt</DependentUpon>
     </Compile>
+    <Compile Include="History.cs">
+      <DependentUpon>Accessor.tt</DependentUpon>
+    </Compile>
     <Compile Include="Issue.cs">
       <DependentUpon>Accessor.tt</DependentUpon>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs">
       <DependentUpon>Accessor.tt</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Accessor.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Accessor.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Accessor.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Accessor.edmx</DependentUpon>
@@ -98,6 +99,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CustomAttributes\CustomAttributes.csproj">
+      <Project>{ec76d65e-e657-4115-ad64-486ac41769d1}</Project>
+      <Name>CustomAttributes</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

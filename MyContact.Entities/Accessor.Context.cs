@@ -25,8 +25,9 @@ namespace MyContact.Entities
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<User> Users { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<History> Histories { get; set; }
         public DbSet<Issue> Issues { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
