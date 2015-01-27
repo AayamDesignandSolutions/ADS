@@ -1,7 +1,7 @@
 ﻿
 define([
     'durandal/system',
-    'services/issue/model',
+    'services/timeSpent/model',
      'config',
     'services/logger',
     'services/breeze.partial-entities',
@@ -15,11 +15,11 @@ define([
 
         //This method get all the users available in the database and load the data into convtactObservable variable.
         //Knockout framework will communicate these information to UI (html)
-        var getAllIssueDetails = function (issueObservable) {
+        var getAllTimeSpentDetails = function (timeSpentObservable) {
          
 
-            var query = EntityQuery.from('Issues')
-                .select('id,issueSubject,issueDetails, assignedTo, createdDate, user,timeSpents')
+            var query = EntityQuery.from('TimeSpents')
+                .select('id,issueId,userId,timeSpent,onDate,issues,users')
                 .orderBy('id');
            
             return manager.executeQuery(query)
@@ -68,11 +68,11 @@ define([
 
 
         //This method get all the users available in the database and load the data into convtactObservable variable.        
-        var getAllIssueDetailsWithSearch = function (issueObservable, search) {
+        var getAllTimeSpentDetailsWithSearch = function (timeSpentObservable, search) {
 
-            var query = EntityQuery.from('Issues')
-                .select('id,issueSubject,issueDetails,assignedTo,createdDate,user,timeSpents')
-                .where('issueSubject', 'substringof', search)
+            var query = EntityQuery.from('TimeSpents')
+                .select('id,issueId,userId,timeSpent,onDate,issues,users')
+                .where('issues.issueSubject', 'substringof', search)
                 .orderBy('id');
            
             return manager.executeQuery(query)
@@ -104,17 +104,17 @@ define([
         }
 
         //This method create empty issue object and send to the view
-        var createIssue = function (issue) {
+        var createTimeSpent = function (timeSpent) {
             //hasMetadataFor  will get call while useradd.html call in the very first time.
             //Bacause model.js is not know the metadata object while calling createUser funtion in the very first time
             if (!manager.metadataStore.hasMetadataFor(config.remoteServiceName)) {
                 manager.metadataStore.fetchMetadata(config.remoteServiceName, fetchMetadataSuccess, fetchMetadataSuccess);
             } else {
-                issue(manager.createEntity(entityNames.issue));
+                timeSpent(manager.createEntity(entityNames.timeSpent));
             }
 
             function fetchMetadataSuccess(rawMetadata) {
-                issue(manager.createEntity(entityNames.issue));
+                timeSpent(manager.createEntity(entityNames.timeSpent));
             }
 
             function fetchMetadataFail(exception) {
@@ -170,13 +170,13 @@ define([
                     return entity.errorMessage;
                 }).join('; <br/>');
             }
-            catch (e) { alert('[issuedatacontext.js] getValidationMessages : ' + e.message); }
+            catch (e) { alert('[timeSpentdatacontext.js] getValidationMessages : ' + e.message); }
             return 'validation error';
         }
 
         function queryFailed(error) {
            
-            var msg = '[issuedatacontext.js] Error retrieving data. ' + error.message;
+            var msg = '[timeSpentdatacontext.js] Error retrieving data. ' + error.message;
             logError(msg, error);
             throw error;
         }
@@ -204,7 +204,7 @@ define([
         var getAIssueDetail = function (issueId, issueObservable) {
          
             return manager.fetchEntityByKey(
-               entityNames.issue, issueId, true)
+               entityNames.timeSpent, timeSpentId, true)
                .then(fetchSucceeded)
                .fail(queryFailed);
 
@@ -212,12 +212,12 @@ define([
                 var s = data.entity;
                
  
-                return s.isPartial() ? refreshissue(s) : issueObservable(s);
+                return s.isPartial() ? refreshtimeSpent(s) : timeSpentObservable(s);
             }
 
-            function refreshissue(issue) {
+            function refreshissue(timeSpent) {
                   
-                    return EntityQuery.fromEntities(issue)
+                return EntityQuery.fromEntities(timeSpent)
                     .using(manager).execute()
                     .then(querySucceeded)
                     .fail(queryFailed);
@@ -262,16 +262,16 @@ define([
         //    return manager.executeQueryLocally(query);
         //}
         ///Properties, Methods
-        var issuedatacontext = {
+        var timeSpentdatacontext = {
             hasChanges: hasChanges,
             saveChanges: saveChanges,
             cancelChanges: cancelChanges,
-            getAllIssueDetails: getAllIssueDetails,
-            createIssue: createIssue,
-            getAIssueDetail: getAIssueDetail,
+            getAllTimeSpentDetails: getAllTimeSpentDetails,
+            createTimeSpent: createTimeSpent,
+            getATimeSpentDetail: getATimeSpentDetail,
             getAllUserDetails: getAllUserDetails,
-            getAllIssueDetailsWithSearch: getAllIssueDetailsWithSearch
+            getAllTimeSpentDetailsWithSearch: getAllTimeSpentDetailsWithSearch
         };
         // primeData: primeData,
-        return issuedatacontext;
+        return timeSpentdatacontext;
     });

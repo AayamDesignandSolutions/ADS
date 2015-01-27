@@ -3,6 +3,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Security;
+using WebMatrix.WebData;
 
 namespace MyContact
 {
@@ -16,6 +18,9 @@ namespace MyContact
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //if (!WebSecurity.Initialized)
+            //    WebSecurity.InitializeDatabaseConnection("MyContactDB", "User", "Id", "UserName", autoCreateTables: true);
+
         }
     }
 }

@@ -184,8 +184,10 @@
     <Content Include="App\services\breeze.partial-entities.js" />
     <Content Include="App\services\history\historydatacontext.js" />
     <Content Include="App\services\history\model.js" />
-    <Content Include="App\services\issue\model.js" />
     <Content Include="App\services\issue\issuedatacontext.js" />
+    <Content Include="App\services\issue\model.js" />
+    <Content Include="App\services\timeSpent\model.js" />
+    <Content Include="App\services\timeSpent\timeSpentdatacontext.js" />
     <Content Include="App\services\logger.js" />
     <Content Include="App\services\contact\model.js" />
     <Content Include="App\services\contact\contactdatacontext.js" />
@@ -194,6 +196,9 @@
     <Content Include="App\viewmodels\contact\contactadd.js" />
     <Content Include="App\viewmodels\contact\contactedit.js" />
     <Content Include="App\viewmodels\contact\contacts.js" />
+    <Content Include="App\viewmodels\timeSpent\timeSpentadd.js" />
+    <Content Include="App\viewmodels\timeSpent\timeSpentedit.js" />
+    <Content Include="App\viewmodels\timeSpent\timeSpents.js" />
     <Content Include="App\viewmodels\issue\issueadd.js" />
     <Content Include="App\viewmodels\issue\issueedit.js" />
     <Content Include="App\viewmodels\issue\issues.js" />
@@ -207,6 +212,9 @@
     <Content Include="App\views\contact\contactadd.html" />
     <Content Include="App\views\contact\contactedit.html" />
     <Content Include="App\views\contact\contacts.html" />
+    <Content Include="App\views\timeSpent\timeSpentadd.html" />
+    <Content Include="App\views\timeSpent\timeSpentedit.html" />
+    <Content Include="App\views\timeSpent\timeSpents.html" />
     <Content Include="App\views\issue\issueadd.html" />
     <Content Include="App\views\issue\issueedit.html" />
     <Content Include="App\views\issue\issues.html" />

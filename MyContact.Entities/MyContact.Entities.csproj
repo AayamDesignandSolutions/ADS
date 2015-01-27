@@ -72,6 +72,9 @@
       <DependentUpon>Accessor.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeSpent.cs">
+      <DependentUpon>Accessor.tt</DependentUpon>
+    </Compile>
     <Compile Include="User.cs">
       <DependentUpon>Accessor.tt</DependentUpon>
     </Compile>

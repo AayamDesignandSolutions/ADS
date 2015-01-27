@@ -3,14 +3,17 @@
     var searchUser = ko.observable();
     var toDouser = ko.observable();
     var toDos = ko.observableArray();
+    var currentUsers = ko.observableArray();
 
     var title = 'To Do';
 
 
     //Activate method will call while page loading
     function activate() {
+       
         var result = userdatacontext.getAllUserDetailsWithTodo(users);
-        
+        var r1 = userdatacontext.getCurrentUser(searchUser);
+      
         logger.log(title + ' View Activated', null, title, true);
         return true;
     }
@@ -21,6 +24,7 @@
 
     //#region This method will catch user click the contact from the list
     var attached = function (view) {
+      
         bindEventToList(view, '.contact-content', gotoDetails);
     }
 
@@ -55,6 +59,7 @@
 
     //Search Command
     var loadTodo = function () {
+        alert(searchUser());
         toDos.removeAll();
         ko.utils.arrayForEach(users(), function (user) {
           

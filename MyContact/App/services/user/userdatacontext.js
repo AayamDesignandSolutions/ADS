@@ -219,6 +219,37 @@ define([
             }
         };
 
+        var getCurrentUser = function (user) {
+            var query = EntityQuery.from('GetCurrentUserDetails')
+                 .select('id, userName')
+                 .orderBy('id');
+
+            return manager.executeQuery(query)
+                        .then(querySucceeded)
+                        .fail(queryFailed);
+
+            function querySucceeded(data) {
+                var list = partialMapper.mapDtosToEntities(
+                    manager, data.results, entityNames.user, 'id');
+               
+                var x = list[0];
+                user = x.id();
+                alert(user);
+                
+                //for (var propertyName in x) {
+                //    alert(propertyName + " : " + x[propertyName]);
+                //    for (var propertyName1 in propertyName) {
+                //        alert(propertyName1 + " : " + propertyName[propertyName1]);
+
+                //    }
+                //}
+                log('Retrieved current user [' + entityNames.user + '] from remote data source',
+                    data, true);
+
+            }
+        };
+
+
         var getAUserDetailWithTodo = function (userId, userObservable) {
 
             return manager.fetchEntityByKey(
@@ -254,6 +285,7 @@ define([
             getAllUserDetails: getAllUserDetails,
             getAllUserDetailsWithTodo: getAllUserDetailsWithTodo,
             createUser: createUser,
+            getCurrentUser: getCurrentUser,
             getAUserDetail: getAUserDetail,
             getAUserDetailWithTodo: getAUserDetailWithTodo,
             getAllUserDetailsWithSearch: getAllUserDetailsWithSearch

@@ -11,22 +11,21 @@ namespace MyContact.Entities
 {
     using System;
     using System.Collections.Generic;
-    using CustomAttributes;
     
     public partial class User
     {
         public User()
         {
             this.Issues = new HashSet<Issue>();
+            this.TimeSpents = new HashSet<TimeSpent>();
         }
     
         public int Id { get; set; }
-        [RequiredForJson]
         public string UserName { get; set; }
-        [RequiredForJson]
         public bool Active { get; set; }
         public System.DateTime CreateDate { get; set; }
     
         public virtual ICollection<Issue> Issues { get; set; }
+        public virtual ICollection<TimeSpent> TimeSpents { get; set; }
     }
 }

@@ -1,8 +1,7 @@
-﻿define(['services/logger', 'services/issue/issuedatacontext', 'plugins/router', 'plugins/dialog'], function (logger, issuedatacontext, router, app) {
+﻿define(['services/logger', 'services/issue/issuedatacontext',  'plugins/router', 'plugins/dialog'], function (logger, issuedatacontext, router, app) {
     var issue = ko.observable();
     var issueUsers = ko.observable();
-  
-    var title = 'Edit Issue';
+    var title = 'Add Issue';
     var isSaving = ko.observable(false);
 
     //Cancel Command
@@ -16,25 +15,11 @@
         return issuedatacontext.hasChanges();
     });
 
-
-
     //Activate method will call while page loading
-    function activate(routeData) {
+    function activate() {
         initLookups();
-        if (!(routeData.toString() === ':id')) {
-            
-            issuedatacontext.getAIssueDetail(routeData, issue);
-
-        }
-        else {
-
-            issuedatacontext.createIssue(issue);
-        }
-
-        
+        issuedatacontext.createIssue(issue);
     }
-
-
     //Deactivate method will call while page unloading
     var deactivate = function () {
 
@@ -42,27 +27,18 @@
 
     initLookups = function () {
         var result = issuedatacontext.getAllUserDetails(issueUsers);
-        logger.log(title + '-user Issue data fetched', null, title, true);
+        logger.log(title + ' Issue data fetched', null, title, true);
     }
 
-    var logTime = function () {
-        var logtime = document.getElementById('tblLogWork');
-        if (logtime.style.visibility == 'visible') {
-            logtime.style.visibility = 'hidden';
-        }
-        else {
-            logtime.style.visibility = 'visible';
-        }
-            // alert(logtime);
-    };
-
-    //Save command
+    //Save Command
     var save = function () {
         isSaving(true);
+   
         issuedatacontext.saveChanges()
             .then(goToEditView).fin(complete);
 
         function goToEditView(result) {
+            
             router.navigate('issue');
         }
 
@@ -75,7 +51,7 @@
         return hasChanges() && !isSaving();
     });
 
-    //This method will call and get confirmation from user while page redirecting.
+    //This method will call deactivate, pop message box will display for getting confirmation.
     var canDeactivate = function () {
         if (hasChanges()) {
             var msg = 'Do you want to leave and cancel?';
@@ -98,7 +74,6 @@
         deactivate: deactivate,
         issue: issue,
         issueUsers: issueUsers,
-        logTime: logTime,
         title: title,
         canSave: canSave,
         cancel: cancel,

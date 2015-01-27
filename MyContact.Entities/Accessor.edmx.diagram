@@ -10,6 +10,9 @@
         <EntityTypeShape EntityType="AccessorModel.Issue" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="AccessorModel.User" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="AccessorModel.FK_Issue_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AccessorModel.TimeSpent" Width="1.5" PointX="6.3436376984900038" PointY="17.789093741117554" />
+        <AssociationConnector Association="AccessorModel.FK_TimeSpent_Issue" />
+        <AssociationConnector Association="AccessorModel.FK_TimeSpent_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -11,17 +11,12 @@ namespace MyContact.Entities
 {
     using System;
     using System.Collections.Generic;
-    using CustomAttributes;
     
     public partial class Contact
     {
-        
         public int Id { get; set; }
-        [RequiredForJson]
         public string Name { get; set; }
-        [RequiredForJson]
         public string Mobile { get; set; }
-        [RequiredForJson]
         public string Email { get; set; }
     }
 }

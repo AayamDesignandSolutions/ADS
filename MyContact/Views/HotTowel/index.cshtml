@@ -11,10 +11,6 @@
     }
 }
 
-<header>
-    <h1>@ViewBag.Title</h1>
-</header>
-
 <div id="main-content">
 @if (@User.Identity.IsAuthenticated)
 {
@@ -46,7 +42,3 @@ else
 }
 </div>
 
-@if (@User.Identity.IsAuthenticated)
-{
-   
-}

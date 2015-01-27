@@ -12,20 +12,16 @@ namespace MyContact.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Issue
+    public partial class TimeSpent
     {
-        public Issue()
-        {
-            this.TimeSpents = new HashSet<TimeSpent>();
-        }
-    
         public int Id { get; set; }
-        public string IssueSubject { get; set; }
-        public string IssueDetails { get; set; }
-        public int AssignedTo { get; set; }
+        public int IssueId { get; set; }
+        public int UserId { get; set; }
+        public double TimeSpent1 { get; set; }
+        public System.DateTime OnDate { get; set; }
         public System.DateTime CreatedDate { get; set; }
     
+        public virtual Issue Issue { get; set; }
         public virtual User User { get; set; }
-        public virtual ICollection<TimeSpent> TimeSpents { get; set; }
     }
 }

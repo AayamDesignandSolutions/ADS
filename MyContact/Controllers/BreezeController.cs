@@ -11,6 +11,7 @@ using MyContact.Entities;
 using Newtonsoft.Json;
 //using MyContact.Models;
 using Newtonsoft.Json.Linq;
+using WebMatrix.WebData;
 
 namespace MyContact.Controllers
 {
@@ -31,6 +32,8 @@ namespace MyContact.Controllers
             //{
             //    return true;
             //}
+         
+
             return true;
         }
 
@@ -77,6 +80,7 @@ namespace MyContact.Controllers
                             comment.ContextId = (int)entity.GetType().GetProperty("Id").GetValue(entity, null); 
                             comment.Field = originalObject.Key;
                             comment.ChangeDate = DateTime.Now;
+                            comment.ChangedBy = WebSecurity.CurrentUserId;
                             var ei = this.CreateEntityInfo(comment);
                             List<EntityInfo> comments;
                             if (!saveMap.TryGetValue(typeof(History), out comments))
@@ -99,54 +103,54 @@ namespace MyContact.Controllers
 
         protected override void AfterSaveEntities(Dictionary<Type, List<EntityInfo>> saveMap, List<KeyMapping> keyMappings)
         {
-            // return a map of those entities we want saved.
-            Dictionary<Type, List<EntityInfo>> saveMap0 = new Dictionary<Type, List<EntityInfo>>();
-            foreach (KeyValuePair<Type, System.Collections.Generic.List<Breeze.WebApi.EntityInfo>> o in saveMap)
-            {
-                saveMap0.Add(o.Key, o.Value);
-            }
+            //// return a map of those entities we want saved.
+            //Dictionary<Type, List<EntityInfo>> saveMap0 = new Dictionary<Type, List<EntityInfo>>();
+            //foreach (KeyValuePair<Type, System.Collections.Generic.List<Breeze.WebApi.EntityInfo>> o in saveMap)
+            //{
+            //    saveMap0.Add(o.Key, o.Value);
+            //}
 
-            object entity = new History();
-            foreach (KeyValuePair<Type, System.Collections.Generic.List<Breeze.WebApi.EntityInfo>> o in saveMap0)
-            {
+            //object entity = new History();
+            //foreach (KeyValuePair<Type, System.Collections.Generic.List<Breeze.WebApi.EntityInfo>> o in saveMap0)
+            //{
 
-                List<Breeze.WebApi.EntityInfo> oval = o.Value;
-                foreach (Breeze.WebApi.EntityInfo item in oval)
-                {
-                    if (item.EntityState != EntityState.Added) continue;
+            //    List<Breeze.WebApi.EntityInfo> oval = o.Value;
+            //    foreach (Breeze.WebApi.EntityInfo item in oval)
+            //    {
+            //        if (item.EntityState != EntityState.Added) continue;
 
-                    var comment = new History();
-                    comment.Context = o.Key.Name;
-                    switch (comment.Context)
-                    {
-                        case "Contact":
-                            entity = (Contact)item.Entity;
-                            comment.NewValue = entity.GetType().GetProperty("Name").GetValue(entity, null).ToString(); //t.GetProperty(originalObject.Key).ToString();
-                            comment.ContextId = (int)entity.GetType().GetProperty("Id").GetValue(entity, null);
-                            comment.Field = "Name";
-                            break;
-                        case "Issue":
-                            entity = (Issue)item.Entity;
-                            comment.NewValue = entity.GetType().GetProperty("IssueSubject").GetValue(entity, null).ToString(); //t.GetProperty(originalObject.Key).ToString();
-                            comment.ContextId = (int)entity.GetType().GetProperty("Id").GetValue(entity, null);
-                            comment.Field = "IssueSubject";
-                            break;
+            //        var comment = new History();
+            //        comment.Context = o.Key.Name;
+            //        switch (comment.Context)
+            //        {
+            //            case "Contact":
+            //                entity = (Contact)item.Entity;
+            //                comment.NewValue = entity.GetType().GetProperty("Name").GetValue(entity, null).ToString(); //t.GetProperty(originalObject.Key).ToString();
+            //                comment.ContextId = (int)entity.GetType().GetProperty("Id").GetValue(entity, null);
+            //                comment.Field = "Name";
+            //                break;
+            //            case "Issue":
+            //                entity = (Issue)item.Entity;
+            //                comment.NewValue = entity.GetType().GetProperty("IssueSubject").GetValue(entity, null).ToString(); //t.GetProperty(originalObject.Key).ToString();
+            //                comment.ContextId = (int)entity.GetType().GetProperty("Id").GetValue(entity, null);
+            //                comment.Field = "IssueSubject";
+            //                break;
 
-                    }
+            //        }
 
-                        comment.OldValue = "";
-                        comment.ChangeDate = DateTime.Now;
-                        var ei = this.CreateEntityInfo(comment);
-                        List<EntityInfo> comments;
-                        if (!saveMap.TryGetValue(typeof(History), out comments))
-                        {
-                            comments = new List<EntityInfo>();
-                            saveMap.Add(typeof(History), comments);
-                        }
-                        comments.Add(ei);
+            //            comment.OldValue = "";
+            //            comment.ChangeDate = DateTime.Now;
+            //            var ei = this.CreateEntityInfo(comment);
+            //            List<EntityInfo> comments;
+            //            if (!saveMap.TryGetValue(typeof(History), out comments))
+            //            {
+            //                comments = new List<EntityInfo>();
+            //                saveMap.Add(typeof(History), comments);
+            //            }
+            //            comments.Add(ei);
                     
-                }
-            }
+            //    }
+            //}
           
         }
     }
@@ -192,23 +196,33 @@ namespace MyContact.Controllers
             return _contextProvider.Context.Histories;
 
         }
+        [HttpGet]
+        public IQueryable<TimeSpent> TimeSpents()
+        {
+            return _contextProvider.Context.TimeSpents;
 
+        }
+        [HttpGet]
+        public IQueryable<User> GetCurrentUserDetails()
+        {
+            return _contextProvider.Context.Users.Where<User>(t => t.Id == WebSecurity.CurrentUserId);
+
+        }
         [HttpGet]
         public object Lookups()
         {
             var users = _contextProvider.Context.Users;
             var issues = _contextProvider.Context.Issues;
             var histories = _contextProvider.Context.Histories;
-            return new { users, issues, histories };
+            var timespents = _contextProvider.Context.TimeSpents ;
+            return new { users, issues, histories, timespents };
         }
 
 
         [HttpPost]
         public SaveResult SaveChanges(JObject saveBundle)
         {
-           // List<History> hist = GenerateHistory(saveBundle);
-         //  var saveHistory=JObject.Parse(JsonConvert.SerializeObject(hist));
-          // _contextProvider.SaveChanges(saveHistory);
+      
             return _contextProvider.SaveChanges(saveBundle);
            //
         }
@@ -295,10 +309,6 @@ namespace MyContact.Controllers
         //    return new Contact();
         //}
 
-
-    }
-}
-
 //    saveBundle	{
 //  "entities": [
 //    {
@@ -323,3 +333,7 @@ namespace MyContact.Controllers
 //  ],
 //  "saveOptions": {}
 //}	Newtonsoft.Json.Linq.JObject
+
+
+    }
+}

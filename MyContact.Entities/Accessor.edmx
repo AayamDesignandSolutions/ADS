@@ -4,15 +4,24 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AccessorModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AccessorModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="AccessorModelStoreContainer">
           <EntitySet Name="Contact" EntityType="AccessorModel.Store.Contact" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="History" EntityType="AccessorModel.Store.History" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Issue" EntityType="AccessorModel.Store.Issue" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TimeSpent" EntityType="AccessorModel.Store.TimeSpent" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="User" EntityType="AccessorModel.Store.User" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_Issue_User" Association="AccessorModel.Store.FK_Issue_User">
             <End Role="User" EntitySet="User" />
             <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeSpent_Issue" Association="AccessorModel.Store.FK_TimeSpent_Issue">
+            <End Role="Issue" EntitySet="Issue" />
+            <End Role="TimeSpent" EntitySet="TimeSpent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeSpent_User" Association="AccessorModel.Store.FK_TimeSpent_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="TimeSpent" EntitySet="TimeSpent" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Contact">
@@ -35,6 +44,7 @@
           <Property Name="OldValue" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="NewValue" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="ChangeDate" Type="datetime" Nullable="false" />
+          <Property Name="ChangedBy" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Issue">
           <Key>
@@ -44,6 +54,17 @@
           <Property Name="IssueSubject" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="IssueDetails" Type="varchar(max)" Nullable="false" />
           <Property Name="AssignedTo" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TimeSpent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IssueId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="TimeSpent" Type="float" Nullable="false" />
+          <Property Name="OnDate" Type="datetime" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
@@ -67,8 +88,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+        <Association Name="FK_TimeSpent_Issue">
+          <End Role="Issue" Type="AccessorModel.Store.Issue" Multiplicity="1" />
+          <End Role="TimeSpent" Type="AccessorModel.Store.TimeSpent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeSpent">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeSpent_User">
+          <End Role="User" Type="AccessorModel.Store.User" Multiplicity="1" />
+          <End Role="TimeSpent" Type="AccessorModel.Store.TimeSpent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeSpent">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AccessorModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -80,6 +124,15 @@
           <AssociationSet Name="FK_Issue_User" Association="AccessorModel.FK_Issue_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Issue" EntitySet="Issues" />
+          </AssociationSet>
+          <EntitySet Name="TimeSpents" EntityType="AccessorModel.TimeSpent" />
+          <AssociationSet Name="FK_TimeSpent_Issue" Association="AccessorModel.FK_TimeSpent_Issue">
+            <End Role="Issue" EntitySet="Issues" />
+            <End Role="TimeSpent" EntitySet="TimeSpents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimeSpent_User" Association="AccessorModel.FK_TimeSpent_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="TimeSpent" EntitySet="TimeSpents" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Contact">
@@ -102,6 +155,7 @@
           <Property Name="OldValue" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="NewValue" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="ChangeDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="ChangedBy" Nullable="false" />
         </EntityType>
         <EntityType Name="Issue">
           <Key>
@@ -113,6 +167,7 @@
           <Property Name="AssignedTo" Type="Int32" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="User" Relationship="AccessorModel.FK_Issue_User" FromRole="Issue" ToRole="User" />
+          <NavigationProperty Name="TimeSpents" Relationship="AccessorModel.FK_TimeSpent_Issue" FromRole="Issue" ToRole="TimeSpent" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -123,6 +178,7 @@
           <Property Name="Active" Type="Boolean" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Issues" Relationship="AccessorModel.FK_Issue_User" FromRole="User" ToRole="Issue" />
+          <NavigationProperty Name="TimeSpents" Relationship="AccessorModel.FK_TimeSpent_User" FromRole="User" ToRole="TimeSpent" />
         </EntityType>
         <Association Name="FK_Issue_User">
           <End Role="User" Type="AccessorModel.User" Multiplicity="1" />
@@ -133,6 +189,43 @@
             </Principal>
             <Dependent Role="Issue">
               <PropertyRef Name="AssignedTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TimeSpent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IssueId" Nullable="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="Double" Name="TimeSpent1" Nullable="false" />
+          <Property Type="DateTime" Name="OnDate" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Issue" Relationship="AccessorModel.FK_TimeSpent_Issue" FromRole="TimeSpent" ToRole="Issue" />
+          <NavigationProperty Name="User" Relationship="AccessorModel.FK_TimeSpent_User" FromRole="TimeSpent" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_TimeSpent_Issue">
+          <End Type="AccessorModel.Issue" Role="Issue" Multiplicity="1" />
+          <End Type="AccessorModel.TimeSpent" Role="TimeSpent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeSpent">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TimeSpent_User">
+          <End Type="AccessorModel.User" Role="User" Multiplicity="1" />
+          <End Type="AccessorModel.TimeSpent" Role="TimeSpent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TimeSpent">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -155,6 +248,7 @@
           <EntitySetMapping Name="Histories">
             <EntityTypeMapping TypeName="AccessorModel.History">
               <MappingFragment StoreEntitySet="History">
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Context" ColumnName="Context" />
                 <ScalarProperty Name="Field" ColumnName="Field" />
@@ -183,6 +277,18 @@
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimeSpents">
+            <EntityTypeMapping TypeName="AccessorModel.TimeSpent">
+              <MappingFragment StoreEntitySet="TimeSpent">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="OnDate" ColumnName="OnDate" />
+                <ScalarProperty Name="TimeSpent1" ColumnName="TimeSpent" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

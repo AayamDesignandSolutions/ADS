@@ -29,5 +29,6 @@ namespace MyContact.Entities
         public DbSet<History> Histories { get; set; }
         public DbSet<Issue> Issues { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<TimeSpent> TimeSpents { get; set; }
     }
 }

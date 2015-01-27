@@ -1,0 +1,36 @@
+﻿<section>
+    <header>
+        <h2 class="page-title" data-bind="text: title"></h2>
+    </header>
+    <table data-bind="with: issue">
+        <tr>
+           <td> <label>Subject:</label></td>
+            <td> <input data-bind="value: issueSubject" placeholder="[subject]" /></td>
+        </tr>
+       <tr>
+          <td>  <label>Details:</label></td>
+             <td> <input data-bind="value: issueDetails" placeholder="[details]" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Assigned to :</td>
+            <td><select data-bind="options: $parent.issueUsers,
+                optionsText: 'userName',
+                value: user,
+                optionsCaption: 'Choose...'">
+            </select></td>
+        </tr>
+    </table>
+    
+    
+</section>
+        <button class="btn btn-info"
+            data-bind="click: cancel, enable: hasChanges">
+            Cancel</button>
+        <button class="btn btn-info"
+            data-bind="click: save, enable: canSave">
+            Save</button>
+
+    
