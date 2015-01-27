@@ -11,6 +11,9 @@ define([
         var manager = configureBreezeManager();
         var orderBy = model.orderBy;
         var entityNames = model.entityNames;
+
+
+
       
 
         //This method get all the users available in the database and load the data into convtactObservable variable.
