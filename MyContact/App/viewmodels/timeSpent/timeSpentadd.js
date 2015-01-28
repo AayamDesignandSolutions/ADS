@@ -1,8 +1,20 @@
-﻿define(['services/logger', 'services/issue/issuedatacontext',  'plugins/router', 'plugins/dialog'], function (logger, issuedatacontext, router, app) {
-    var issue = ko.observable();
-    var issueUsers = ko.observable();
-    var title = 'Add Issue';
+﻿define(['services/logger', 'services/timeSpent/timeSpentdatacontext', 'plugins/router', 'plugins/dialog'], function (logger, timeSpentdatacontext, router, app) {
+    var timeSpent = ko.observable();
+    var users = ko.observable();
+    var issues = ko.observable();
+   
+    var title = 'Add timeSpent';
     var isSaving = ko.observable(false);
+
+
+   
+    var loadIssues = function () {
+        if (timeSpent().userId() > 0)
+        {
+
+            var result1 = timeSpentdatacontext.getAllIssuesForUser(issues, timeSpent().userId());
+        }
+    };
 
     //Cancel Command
     var cancel = function (complete) {
@@ -10,15 +22,16 @@
     };
 
 
-    var hasChanges = ko.computed(function () {
 
-        return issuedatacontext.hasChanges();
+    var hasChanges = ko.computed(function () {
+      
+        return timeSpentdatacontext.hasChanges();
     });
 
     //Activate method will call while page loading
     function activate() {
         initLookups();
-        issuedatacontext.createIssue(issue);
+        timeSpentdatacontext.createTimeSpent(timeSpent);
     }
     //Deactivate method will call while page unloading
     var deactivate = function () {
@@ -26,7 +39,8 @@
     };
 
     initLookups = function () {
-        var result = issuedatacontext.getAllUserDetails(issueUsers);
+        var result = timeSpentdatacontext.getAllUserDetails(users);
+       // 
         logger.log(title + ' Issue data fetched', null, title, true);
     }
 
@@ -34,15 +48,16 @@
     var save = function () {
         isSaving(true);
    
-        issuedatacontext.saveChanges()
+        timeSpentdatacontext.saveChanges()
             .then(goToEditView).fin(complete);
 
         function goToEditView(result) {
-            
-            router.navigate('issue');
+            alert('navigate');
+            router.navigate('timeSpent');
         }
 
         function complete() {
+            alert('complete');
             isSaving(false);
         }
     };
@@ -58,7 +73,7 @@
             return app.showMessage(msg, title, ['Yes', 'No'])
                 .then(function (selectedOption) {
                     if (selectedOption === 'Yes') {
-                        issuedatacontext.cancelChanges();
+                        timeSpentdatacontext.cancelChanges();
 
                     }
                     return selectedOption;
@@ -72,12 +87,14 @@
         activate: activate,
         canDeactivate: canDeactivate,
         deactivate: deactivate,
-        issue: issue,
-        issueUsers: issueUsers,
+        timeSpent: timeSpent,
+        issues: issues,
+        users: users,
         title: title,
         canSave: canSave,
         cancel: cancel,
         hasChanges: hasChanges,
+        loadIssues: loadIssues,
         save: save
     };
 

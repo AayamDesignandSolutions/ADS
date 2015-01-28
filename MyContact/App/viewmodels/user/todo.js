@@ -59,7 +59,7 @@
 
     //Search Command
     var loadTodo = function () {
-        alert(searchUser());
+     
         toDos.removeAll();
         ko.utils.arrayForEach(users(), function (user) {
           

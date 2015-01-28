@@ -22,9 +22,9 @@ define([
          
 
             var query = EntityQuery.from('TimeSpents')
-                .select('id,issueId,userId,timeSpent,onDate,issues,users')
+                .select('id,issueId,userId,timeSpent1,onDate,issue.issueSubject, user.userName ')
                 .orderBy('id');
-           
+            
             return manager.executeQuery(query)
                         .then(querySucceeded)
                         .fail(queryFailed);
@@ -32,15 +32,17 @@ define([
            
 
             function querySucceeded(data) {
-                var list = partialMapper.mapDtosToEntities(
-                    manager, data.results, entityNames.issue, 'id');
-
-                if (issueObservable) {
-                    issueObservable(list);
+                var list = [];
+                for (i = 0; i < data.results.length; i++) {
+                    list.push(data.results[i]);
                 }
-               
-                log('Retrieved [' + entityNames.issue + '] from remote data source',
-                    data, true);
+                //var list = partialMapper.mapDtosToEntities(
+                //    manager, data.results, entityNames.timeSpent, 'id');
+              
+                if (timeSpentObservable) {
+                    timeSpentObservable(list);
+                }
+             
 
             }
         };
@@ -69,12 +71,37 @@ define([
             }
         };
 
+       
+        var getAllIssuesForUser = function (issueObservable,userId) {
+         
+            var query = EntityQuery.from('Issues')
+                .select('id, issueSubject')
+                .where('assignedTo', '==', userId)
+                .orderBy('id');
+
+                return manager.executeQuery(query)
+                            .then(querySucceeded)
+                            .fail(queryFailed);
+
+                function querySucceeded(data) {
+                    var list = partialMapper.mapDtosToEntities(
+                        manager, data.results, entityNames.issue, 'id');
+
+                    if (issueObservable) {
+                        issueObservable(list);
+                    }
+                
+                    log('Retrieved [' + entityNames.issue + '] from remote data source 2',
+                        data, true);
+              
+                }
+            };
 
         //This method get all the users available in the database and load the data into convtactObservable variable.        
         var getAllTimeSpentDetailsWithSearch = function (timeSpentObservable, search) {
 
             var query = EntityQuery.from('TimeSpents')
-                .select('id,issueId,userId,timeSpent,onDate,issues,users')
+                .select('id,issueId,userId,timeSpent1,onDate')
                 .where('issues.issueSubject', 'substringof', search)
                 .orderBy('id');
            
@@ -86,11 +113,11 @@ define([
                 var list = partialMapper.mapDtosToEntities(
                     manager, data.results, entityNames.issue, 'id');
 
-                if (issueObservable) {
-                    issueObservable(list);
+                if (timeSpentObservable) {
+                    timeSpentObservable(list);
                 }
                 
-                log('Retrieved [' + entityNames.issueSubject + '] from remote data source 3',
+                log('Retrieved [' + entityNames.timeSpent + '] from remote data source 3',
                     data, true);
 
             }
@@ -181,15 +208,16 @@ define([
            
             var msg = '[timeSpentdatacontext.js] Error retrieving data. ' + error.message;
             logError(msg, error);
+            
             throw error;
         }
         
         function log(msg, data, showToast) {
-            logger.log(msg, data, system.getModuleId(issuedatacontext), showToast);
+            logger.log(msg, data, system.getModuleId(timeSpentdatacontext), showToast);
         }
 
         function logError(msg, error) {
-            logger.logError(msg, error, system.getModuleId(issuedatacontext), true);
+            logger.logError(msg, error, system.getModuleId(timeSpentdatacontext), true);
         }
         ////////////////////////
 
@@ -199,12 +227,13 @@ define([
 
 
         manager.hasChangesChanged.subscribe(function (eventArgs) {
+         
             hasChanges(eventArgs.hasChanges);
         });
 
 
         //This method call the breeze api service and get a request issue for edit
-        var getAIssueDetail = function (issueId, issueObservable) {
+        var getATimeSpentDetail = function (timeSpentId, timeSpentObservable) {
          
             return manager.fetchEntityByKey(
                entityNames.timeSpent, timeSpentId, true)
@@ -273,6 +302,7 @@ define([
             createTimeSpent: createTimeSpent,
             getATimeSpentDetail: getATimeSpentDetail,
             getAllUserDetails: getAllUserDetails,
+            getAllIssuesForUser: getAllIssuesForUser,
             getAllTimeSpentDetailsWithSearch: getAllTimeSpentDetailsWithSearch
         };
         // primeData: primeData,

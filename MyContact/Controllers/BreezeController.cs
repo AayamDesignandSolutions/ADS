@@ -23,10 +23,9 @@ namespace MyContact.Controllers
         {
             // return false if we don’t want the entity saved.
             // prohibit any additions of entities of type 'Role'
-            //if (entityInfo.Entity.GetType() == typeof(Role)
-            //  && entityInfo.EntityState == EntityState.Added)
+            //if (entityInfo.EntityState == EntityState.Added)
             //{
-            //    return false;
+            //    return true;
             //}
             //else
             //{
@@ -51,47 +50,63 @@ namespace MyContact.Controllers
             object entity = new History();
             foreach (KeyValuePair<Type, System.Collections.Generic.List<Breeze.WebApi.EntityInfo>> o in saveMap0)
             {
-               
+
                 List<Breeze.WebApi.EntityInfo> oval = o.Value;
                 foreach (Breeze.WebApi.EntityInfo item in oval)
                 {
-                    if (item.EntityState == EntityState.Added) continue;
-
-                    foreach (KeyValuePair<string, object> originalObject in item.OriginalValuesMap)
+                    if (item.EntityState == EntityState.Added)
                     {
-                        if (originalObject.Key.ToString() != "IsPartial")
+
+                        //foreach ( PropertyInfo p in item.Entity.GetType().GetProperties())
+                        //{
+                        //    if (p.PropertyType.Name == "DateTime" && ((DateTime)item.Entity.GetType().GetRuntimeProperty(p.Name).GetValue(item.Entity)).Year < 1900)
+                        //    {
+                        //        item.Entity.GetType().GetRuntimeProperty(p.Name).SetValue(item.Entity, null);    
+                        //    }
+                        //}
+                        continue;
+                    }
+                    else
+                    {
+
+                        foreach (KeyValuePair<string, object> originalObject in item.OriginalValuesMap)
                         {
-                            var comment = new History();
-                            comment.Context = o.Key.Name;
-                            switch (comment.Context)
+                            if (originalObject.Key.ToString() != "IsPartial")
                             {
-                                case "Contact":
-                                    entity = (Contact)item.Entity;
-                                    break;
-                                case "Issue":
-                                    entity = (Issue)item.Entity;
-                                    break;
+                                var comment = new History();
+                                comment.Context = o.Key.Name;
+                                switch (comment.Context)
+                                {
+                                    case "Contact":
+                                        entity = (Contact)item.Entity;
+                                        break;
+                                    case "Issue":
+                                        entity = (Issue)item.Entity;
+                                        break;
+                                    case "TimeSpent":
+                                        entity = (TimeSpent)item.Entity;
+                                        break;
+                                }
 
-                            }
 
-                        
-                            comment.OldValue = originalObject.Value.ToString();
-                            comment.NewValue =  entity.GetType().GetProperty(originalObject.Key).GetValue(entity, null).ToString(); //t.GetProperty(originalObject.Key).ToString();
-                            comment.ContextId = (int)entity.GetType().GetProperty("Id").GetValue(entity, null); 
-                            comment.Field = originalObject.Key;
-                            comment.ChangeDate = DateTime.Now;
-                            comment.ChangedBy = WebSecurity.CurrentUserId;
-                            var ei = this.CreateEntityInfo(comment);
-                            List<EntityInfo> comments;
-                            if (!saveMap.TryGetValue(typeof(History), out comments))
-                            {
-                                comments = new List<EntityInfo>();
-                                saveMap.Add(typeof(History), comments);
+                                comment.OldValue = originalObject.Value.ToString();
+                                comment.NewValue = entity.GetType().GetProperty(originalObject.Key).GetValue(entity, null).ToString(); //t.GetProperty(originalObject.Key).ToString();
+                                comment.ContextId = (int)entity.GetType().GetProperty("Id").GetValue(entity, null);
+                                comment.Field = originalObject.Key;
+                                comment.ChangeDate = DateTime.Now;
+                                comment.ChangedBy = WebSecurity.CurrentUserId;
+                                var ei = this.CreateEntityInfo(comment);
+                                List<EntityInfo> comments;
+                                if (!saveMap.TryGetValue(typeof(History), out comments))
+                                {
+                                    comments = new List<EntityInfo>();
+                                    saveMap.Add(typeof(History), comments);
+                                }
+                                comments.Add(ei);
                             }
-                            comments.Add(ei);
                         }
                     }
-                    
+
                 }
 
             }

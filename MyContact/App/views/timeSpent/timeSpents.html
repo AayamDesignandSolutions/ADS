@@ -12,22 +12,24 @@
                 data-bind="click: clearSearch">
                 Clear</button>
             <button class="btn btn-info"
-                data-bind="click: addIssue">
+                data-bind="click: addTimeSpent">
                 Add</button>
         </div>
     </header>
     <div class="contact-counter">
-        <small data-bind="text: issues().length"></small>
+        <small data-bind="text: timeSpents().length"></small>
         <small>found</small>
     </div>
-    <section class="view-list" data-bind="foreach: issues">
+    <section class="view-list" data-bind="foreach: timeSpents">
         <article class="contact-content" title="Go to edit">
             <div title="Go to edit">
-                <small data-bind="text: issueSubject" class="contactName "></small>
-                <small data-bind="text: issueDetails" class="clear-flot-right margin-top--10px"></small>
-                <small data-bind="text: user().userName" class="clear-flot-right"></small>
-<!--                <small data-bind="text: createdDate" class="clear-flot-right"></small>-->
-
+                
+               <!-- <small data-bind="text: moment(onDate()).format('L') " class="contactName "></small>-->
+                <small data-bind="text: user_UserName" class="contactName "></small>
+                <small  class="contactName "> Logged </small>
+                <small data-bind="text: timeSpent1" class="contactName "></small>
+                <small  class="contactName "> Hrs for </small>
+                <small data-bind="text: issue_IssueSubject" class="contactName "></small>
             </div>
             
         </article>

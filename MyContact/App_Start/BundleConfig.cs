@@ -21,8 +21,10 @@ namespace MyContact
                 .Include("~/Scripts/sammy-{version}.js")
                 .Include("~/scripts/bootstrap.js")
                 .Include("~/scripts/moment.js")
+                .Include("~/scripts/moment-datepicker-ko.js")
+                .Include("~/scripts/moment-datepicker.js")
+
               );
-           
 
             bundles.Add(
               new StyleBundle("~/Content/css")
@@ -36,6 +38,8 @@ namespace MyContact
                 .Include("~/Content/toastr.css")
                 .Include("~/Content/app.css")
                 .Include("~/Content/style.css")
+                .Include("~/Content/moment-datepicker/datepicker.css")
+
               );
 
            
