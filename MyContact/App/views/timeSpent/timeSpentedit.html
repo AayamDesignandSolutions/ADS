@@ -18,9 +18,9 @@
         <tr>
             <td>Assigned to :</td>
             <td><select data-bind="options: $parent.issueUsers,
-    optionsText: 'userName',
-    value: user,
-    optionsCaption: 'Choose...'">
+                    optionsText: 'displayName',
+                    value: user,
+                    optionsCaption: 'Choose...'">
             </select></td>
         </tr>
         <tr>
@@ -58,7 +58,7 @@
                                 </tr>
                                 <tr>
                                         <td>
-                                        <small data-bind="text: user().userName"></small>
+                                        <small data-bind="text: user().displayName"></small>
                                     </td>
 
                                     <td>
@@ -75,7 +75,7 @@
                                        <tr>
                                            <td>User</td>
                                            <td><select data-bind="options: $parent.issueUsers,
-                                                optionsText: 'userName',
+                                                optionsText: 'displayName',
                                                 value: user,
                                                 optionsCaption: 'Choose...'">
                                                 </select>

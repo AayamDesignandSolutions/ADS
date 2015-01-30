@@ -16,11 +16,12 @@
         </tr>
         <tr>
             <td>Assigned to :</td>
-            <td><select data-bind="options: $parent.issueUsers,
-                optionsText: 'userName',
-                value: user,
-                optionsCaption: 'Choose...'">
-            </select></td>
+            <td>
+                <select data-bind="options: $parent.issueUsers,
+                        optionsText: 'displayName',
+                        value: user,
+                        optionsCaption: 'Choose...'">
+                </select></td>
         </tr>
     </table>
     

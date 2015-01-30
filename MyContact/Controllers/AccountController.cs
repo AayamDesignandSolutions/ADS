@@ -73,11 +73,16 @@ namespace MyContact.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(MyContact.Entities.AccessorEntities.RegisterModel model)
         {
+             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(model.UserName);
+         
+            model.UserName = System.Convert.ToBase64String(plainTextBytes);
+
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
                 try
                 {
+
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "");

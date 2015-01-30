@@ -73,6 +73,7 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="DisplayName" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="Active" Type="bit" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
         </EntityType>
@@ -179,6 +180,7 @@
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Issues" Relationship="AccessorModel.FK_Issue_User" FromRole="User" ToRole="Issue" />
           <NavigationProperty Name="TimeSpents" Relationship="AccessorModel.FK_TimeSpent_User" FromRole="User" ToRole="TimeSpent" />
+          <Property Type="String" Name="DisplayName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Issue_User">
           <End Role="User" Type="AccessorModel.User" Multiplicity="1" />
@@ -273,6 +275,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="AccessorModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Active" ColumnName="Active" />

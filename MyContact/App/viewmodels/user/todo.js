@@ -12,7 +12,7 @@
     function activate() {
        
         var result = userdatacontext.getAllUserDetailsWithTodo(users);
-        var r1 = userdatacontext.getCurrentUser(searchUser);
+       // var r1 = userdatacontext.getCurrentUser(searchUser);
       
         logger.log(title + ' View Activated', null, title, true);
         return true;

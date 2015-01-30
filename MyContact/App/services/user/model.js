@@ -1,16 +1,18 @@
 ﻿define(['durandal/system', 'services/logger'],
     function (system, logger) {
-        var nulloDate = new Date(1900, 0, 1);
+        var nulloDate = new Date(2015, 0, 1);
         var referenceCheckValidator;
         var Validator = breeze.Validator;
 
         var orderBy = {
-            user: 'UserName'
+            user: 'DisplayName'
         };
 
         //If more than one entity available, it has to mention here.
         var entityNames = {
-            user: 'User'
+            issue: 'Issue',
+            user: 'User',
+            timeSpent: 'TimeSpent'
         };
 
         var model = {
@@ -24,7 +26,14 @@
         
         function configureMetadataStore(metadataStore) {
             metadataStore.registerEntityTypeCtor(
-               'User', function () { this.isPartial = false; });
+              'TimeSpent', function () { this.isPartial = false; });
+
+            metadataStore.registerEntityTypeCtor(
+               'Issue', function () { this.isPartial = false; });
+
+            metadataStore.registerEntityTypeCtor(
+              'User', function () { this.isPartial = false; });
+
 
             referenceCheckValidator = createReferenceCheckValidator();
             Validator.register(referenceCheckValidator);

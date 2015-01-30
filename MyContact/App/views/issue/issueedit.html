@@ -18,9 +18,9 @@
         <tr>
             <td>Assigned to :</td>
             <td><select data-bind="options: $parent.issueUsers,
-    optionsText: 'userName',
-    value: user,
-    optionsCaption: 'Choose...'">
+                    optionsText: 'displayName',
+                    value: user,
+                    optionsCaption: 'Choose...'">
             </select></td>
         </tr>
         <tr>
@@ -45,61 +45,34 @@
             data-bind="click: logTime">
             Log Time</button>
     </div>
-        <div class="CSSTableGenerator" >
-            <table>
+    <div class="CSSTableGenerator">
+        <table >
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Time Spent<br>
+                        (Hrs)</th>
+                    <th>On</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: issue().timeSpents">
                 <tr>
                     <td>
-                       <table data-bind="foreach: issue().timeSpents"   >
-                                <tr>
-                                    <td>User</td>
-                                    <td>Time Spent<br>(Hrs)</td>
-                                    <td>On</td>
+                        <small data-bind="text: user().displayName"></small>
+                    </td>
 
-                                </tr>
-                                <tr>
-                                        <td>
-                                        <small data-bind="text: user().userName"></small>
-                                    </td>
-
-                                    <td>
-                                        <small data-bind="text: timeSpent1" ></small>
-                                    </td>
-                                    <td>
-                                        <small data-bind="text: moment(onDate()).format('L')"></small>
-                                    </td>
-                                </tr>
-                            </table>
+                    <td>
+                        <small data-bind="text: timeSpent1"></small>
                     </td>
                     <td>
-                         <table id="tblLogWork"  style="visibility:hidden" data-bind="with: issue" >
-                                       <tr>
-                                           <td>User</td>
-                                           <td><select data-bind="options: $parent.issueUsers,
-                                                optionsText: 'userName',
-                                                value: user,
-                                                optionsCaption: 'Choose...'">
-                                                </select>
-                                           </td>
-                                       </tr> 
-                                        <tr>
-                                            <td>Time Spent</td>
-                                            <td>
-                                                <input type="text" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>For Date</td>
-                                            <td>
-                                                <input type="text" />
-                                            </td>
-                                        </tr>
-                                </table>
+                        <small data-bind="text: moment(onDate()).format('L')"></small>
                     </td>
                 </tr>
-            </table>
-     
-       
-        </div>
+            </tbody>
+
+        </table>
+
+    </div>
       
    
 </section>

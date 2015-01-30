@@ -45,7 +45,7 @@ define([
         var getAllUserDetails = function (userObservable) {
          
             var query = EntityQuery.from('Users')
-                .select('id, userName, active')
+                .select('id, displayName, active')
                 .orderBy('id');
 
             return manager.executeQuery(query)

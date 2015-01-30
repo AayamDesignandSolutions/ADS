@@ -1,10 +1,13 @@
-﻿﻿using System.Web;
+﻿using System;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Threading;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using System.Web.Security;
 using WebMatrix.WebData;
+using MyContact.App_Start;
 
 namespace MyContact
 {
@@ -15,12 +18,50 @@ namespace MyContact
     {
         protected void Application_Start()
         {
+            AreaRegistration.RegisterAllAreas();
+
+            //WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //AuthConfig.RegisterAuth();
+            GlobalConfiguration.Configuration.Filters.Add(new System.Web.Http.AuthorizeAttribute());
+
+            // Ensure ASP.NET Simple Membership is initialized only once per app start
+            //LazyInitializer.EnsureInitialized(ref _initializer, ref _isInitialized, ref _initializerLock);
+            
             //if (!WebSecurity.Initialized)
             //    WebSecurity.InitializeDatabaseConnection("MyContactDB", "User", "Id", "UserName", autoCreateTables: true);
 
         }
+        //private static SimpleMembershipInitializer _initializer;
+        //private static object _initializerLock = new object();
+        //private static bool _isInitialized;
+
+        //private class SimpleMembershipInitializer
+        //{
+        //    public SimpleMembershipInitializer()
+        //    {
+        //        Database.SetInitializer<MyContact.Entities.AccessorEntities>(null);
+
+        //        try
+        //        {
+        //            using (var context = new MyContact.Entities.AccessorEntities())
+        //            {
+        //                if (!context.Database.Exists())
+        //                {
+        //                    // Create the SimpleMembership database without Entity Framework migration schema
+        //                    ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
+        //                }
+        //            }
+
+        //            WebSecurity.InitializeDatabaseConnection("MyContactDB", "User", "Id", "UserName", autoCreateTables: true);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
+        //        }
+        //    }
+        //}
     }
 }

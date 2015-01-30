@@ -42,6 +42,7 @@
 
     initLookups = function () {
         var result = issuedatacontext.getAllUserDetails(issueUsers);
+
         logger.log(title + '-user Issue data fetched', null, title, true);
     }
 

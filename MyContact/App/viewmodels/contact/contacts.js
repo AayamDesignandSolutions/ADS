@@ -1,8 +1,9 @@
 ﻿define(['services/logger', 'services/contact/contactdatacontext', 'plugins/router'], function (logger, contactdatacontext, router) {
     var contacts = ko.observableArray();
+    var selectedcontact = ko.observable();
     var searchName = ko.observable();
     var title = 'Contacts';
-
+    var isSaving = ko.observable(false);
 
     //Activate method will call while page loading
     function activate() {
@@ -32,19 +33,21 @@
 
     var gotoDetails = function (selectedContact) {
         if (selectedContact && selectedContact.id()) {
-            var url = '#/contactedit/' + selectedContact.id();
-            router.navigate(url);
-
+            contactdatacontext.getAContactDetail(selectedContact.id(), selectedcontact);
+            $('#edited-article').modal("show");
         }
     }
+    
 
     var addContact = function () {
-            var url = '#/contactadd/';
-            router.navigate(url);
+        title = 'Add Contact';
+        contactdatacontext.createContact(selectedcontact);
+        $('#edited-article').modal("show");
+
+
+            //var url = '#/contactadd/';
+            //router.navigate(url);
     }
-    //endregion
-
-
     //Search Command
     var search = function () {
         contactdatacontext.getAllContactDetailsWithSearch(contacts, searchName());
@@ -56,6 +59,61 @@
         contactdatacontext.getAllContactDetails(contacts);
         searchName('');
     };
+    
+    //------------------------------ Contact Add-----------------------------------------------
+    //Cancel Command
+    var cancel = function (complete) {
+        contactdatacontext.getAllContactDetails(contacts);
+        $('#edited-article').modal("hide");
+    };
+
+
+    var hasChanges = ko.computed(function () {
+
+        return contactdatacontext.hasChanges();
+    });
+
+   
+
+
+    //Save Command
+    var save = function () {
+        isSaving(true);
+        contactdatacontext.saveChanges()
+            .then(goToEditView).fin(complete);
+
+        function goToEditView(result) {
+            contactdatacontext.getAllContactDetails(contacts);
+            $('#edited-article').modal("hide");
+        }
+
+        function complete() {
+            isSaving(false);
+        }
+    };
+    var canSave = ko.computed(function () {
+
+        return hasChanges() && !isSaving();
+    });
+
+    //This method will call deactivate, pop message box will display for getting confirmation.
+    var canDeactivate = function () {
+        if (hasChanges()) {
+            var msg = 'Do you want to leave and cancel?';
+            return app.showMessage(msg, title, ['Yes', 'No'])
+                .then(function (selectedOption) {
+                    if (selectedOption === 'Yes') {
+                        contactdatacontext.cancelChanges();
+
+                    }
+                    return selectedOption;
+                });
+        }
+        return true;
+    }
+    //------------------------------ Contact Add-----------------------------------------------
+
+  
 
     //ViewModel Properties, Method and Command object
     var vm = {
@@ -67,7 +125,12 @@
         search: search,
         searchName: searchName,
         clearSearch: clearSearch,
-        addContact: addContact
+        addContact: addContact,
+        canSave: canSave,
+        cancel: cancel,
+        hasChanges: hasChanges,
+        save: save,
+        selectedcontact: selectedcontact
     };
 
     return vm;

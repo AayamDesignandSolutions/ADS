@@ -12,13 +12,8 @@
     @Styles.Render("~/Content/css" )
 </head>
 <body>
-    <div id="userSettings">
-        @Html.Partial("_UserSettings")
-    </div>
-
     @RenderBody()
 
-  
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -21,6 +21,7 @@ namespace MyContact
                 .Include("~/Scripts/sammy-{version}.js")
                 .Include("~/scripts/bootstrap.js")
                 .Include("~/scripts/moment.js")
+                .Include("~/scripts/base64.js")
                 .Include("~/scripts/moment-datepicker-ko.js")
                 .Include("~/scripts/moment-datepicker.js")
 

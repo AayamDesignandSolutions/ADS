@@ -22,7 +22,7 @@ define([
          
 
             var query = EntityQuery.from('TimeSpents')
-                .select('id,issueId,userId,timeSpent1,onDate,issue.issueSubject, user.userName ')
+                .select('id,issueId,userId,timeSpent1,onDate,issue.issueSubject, user.displayName ')
                 .orderBy('id');
             
             return manager.executeQuery(query)
@@ -50,7 +50,7 @@ define([
         var getAllUserDetails = function (userObservable) {
          
             var query = EntityQuery.from('Users')
-                .select('id, userName, active')
+                .select('id, displayName, active')
                 .orderBy('id');
 
             return manager.executeQuery(query)

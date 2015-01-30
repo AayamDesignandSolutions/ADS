@@ -20,6 +20,46 @@
         <small data-bind="text: contacts().length"></small>
         <small>found</small>
     </div>
+    <div class="modal fade" id="edited-article" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" >&times;</button>
+                    <h1 class="modal-title" data-bind="text: title"></h1>
+                </div>
+                <div class="modal-body">
+                    <div data-bind="with: selectedcontact">
+                        <div>
+                            <label>Name:</label>
+                            <input data-bind="value: name" placeholder="[name]" />
+                        </div>
+                        <div>
+                            <label>Mobile:</label>
+                            <input data-bind="value: mobile" placeholder="[mobile]" />
+                        </div>
+
+                        <div>
+                            <label>Email:</label>
+                            <input data-bind="value: email" placeholder="[email]" />
+                        </div>
+                    </div>
+                    <div class="button-margin">
+                        <button class="btn btn-info"
+                            data-bind="click: cancel, enable: hasChanges">
+                            Cancel</button>
+                        <button class="btn btn-info"
+                            data-bind="click: save, enable: canSave">
+                            Save</button>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" data-bind="click: cancel">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <section class="view-list" data-bind="foreach: contacts">
         <article class="contact-content" title="Go to edit">
             <div title="Go to edit">

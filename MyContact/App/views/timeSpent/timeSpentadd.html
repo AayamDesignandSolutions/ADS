@@ -6,7 +6,7 @@
           <tr>
             <td>Assigned to :</td>
             <td><select data-bind="options: $parent.users,
-                optionsText: 'userName',
+                optionsText: 'displayName',
                 value: user,
                 optionsCaption: 'Choose...',
                 event: { change: $parent.loadIssues }" >

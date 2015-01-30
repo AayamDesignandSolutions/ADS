@@ -76,9 +76,9 @@ namespace MyContact.Entities
             public string ProviderUserId { get; set; }
         }
     }
-    public partial class TimeSpent
-    {
-        public string IssueSubject { get; set; }
-        public string UserName { get; set; }
-    }
+    //public partial class TimeSpent
+    //{
+    //    public string IssueSubject { get; set; }
+    //    public string UserName { get; set; }
+    //}
 }

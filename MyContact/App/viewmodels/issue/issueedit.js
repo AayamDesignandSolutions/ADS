@@ -42,17 +42,13 @@
 
     initLookups = function () {
         var result = issuedatacontext.getAllUserDetails(issueUsers);
+
         logger.log(title + '-user Issue data fetched', null, title, true);
     }
 
     var logTime = function () {
-        var logtime = document.getElementById('tblLogWork');
-        if (logtime.style.visibility == 'visible') {
-            logtime.style.visibility = 'hidden';
-        }
-        else {
-            logtime.style.visibility = 'visible';
-        }
+        var url = '#/timeSpentadd/';
+        router.navigate(url);
             // alert(logtime);
     };
 

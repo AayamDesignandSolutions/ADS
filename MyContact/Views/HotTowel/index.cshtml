@@ -13,13 +13,34 @@
 
 <div id="main-content">
 @if (@User.Identity.IsAuthenticated)
-{
-     <div id="applicationHost">
-        @Html.Partial("_splash")
-    </div>
+{  
+    <table>
+        <tr>
+            <td>
+                <div id="applicationHost">
+                    @Html.Partial("_splash")
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="userSettings">
+                    @Html.Partial("_UserSettings")
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Scripts.Render("~/scripts/vendor")
+                <script src="~/Scripts/require.js" data-main="@Url.Content("~/App/main")"></script>
+            </td>
+        </tr>
+
+    </table>
     
-      @Scripts.Render("~/scripts/vendor")
-	<script src="~/Scripts/require.js" data-main="@Url.Content("~/App/main")"></script>
+   
+        
+  
 }
 else
 {

@@ -24,6 +24,7 @@ namespace MyContact.Entities
         public string UserName { get; set; }
         public bool Active { get; set; }
         public System.DateTime CreateDate { get; set; }
+        public string DisplayName { get; set; }
     
         public virtual ICollection<Issue> Issues { get; set; }
         public virtual ICollection<TimeSpent> TimeSpents { get; set; }

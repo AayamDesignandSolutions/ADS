@@ -44,10 +44,37 @@ namespace MyContact.Controllers
             {
                 saveMap0.Add(o.Key,o.Value);
             }
-            
-            
+
             var tag = this.SaveOptions.Tag;
             object entity = new History();
+            foreach (KeyValuePair<Type, System.Collections.Generic.List<Breeze.WebApi.EntityInfo>> o in saveMap)
+            {
+
+                List<Breeze.WebApi.EntityInfo> oval = o.Value;
+                foreach (Breeze.WebApi.EntityInfo item in oval)
+                {
+                    if (item.EntityState == EntityState.Added)
+                    {
+                        //
+                        //return ;
+
+                        foreach (PropertyInfo p in item.Entity.GetType().GetProperties())
+                        {
+                            if (p.PropertyType.Name == "DateTime" && ((DateTime)item.Entity.GetType().GetRuntimeProperty(p.Name).GetValue(item.Entity)).Year < 1900)
+                            {
+                                item.Entity.GetType().GetRuntimeProperty(p.Name).SetValue(item.Entity, DateTime.Now );
+                            }
+                            if (item.Entity.GetType().Name == "User" && p.Name=="UserName" )
+                            {
+                                var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(((User) item.Entity).UserName);
+                                item.Entity.GetType().GetRuntimeProperty(p.Name).SetValue(item.Entity, System.Convert.ToBase64String(plainTextBytes));
+                            }
+                        }
+                       
+                    }
+                }
+            }
+
             foreach (KeyValuePair<Type, System.Collections.Generic.List<Breeze.WebApi.EntityInfo>> o in saveMap0)
             {
 
@@ -56,14 +83,6 @@ namespace MyContact.Controllers
                 {
                     if (item.EntityState == EntityState.Added)
                     {
-
-                        //foreach ( PropertyInfo p in item.Entity.GetType().GetProperties())
-                        //{
-                        //    if (p.PropertyType.Name == "DateTime" && ((DateTime)item.Entity.GetType().GetRuntimeProperty(p.Name).GetValue(item.Entity)).Year < 1900)
-                        //    {
-                        //        item.Entity.GetType().GetRuntimeProperty(p.Name).SetValue(item.Entity, null);    
-                        //    }
-                        //}
                         continue;
                     }
                     else
@@ -80,6 +99,9 @@ namespace MyContact.Controllers
                                     case "Contact":
                                         entity = (Contact)item.Entity;
                                         break;
+                                    case "User":
+                                        entity = (User)item.Entity;
+                                        break;
                                     case "Issue":
                                         entity = (Issue)item.Entity;
                                         break;
@@ -94,7 +116,14 @@ namespace MyContact.Controllers
                                 comment.ContextId = (int)entity.GetType().GetProperty("Id").GetValue(entity, null);
                                 comment.Field = originalObject.Key;
                                 comment.ChangeDate = DateTime.Now;
-                                comment.ChangedBy = WebSecurity.CurrentUserId;
+                                try
+                                {
+                                    comment.ChangedBy = WebSecurity.CurrentUserId;
+                                }
+                                catch
+                                {
+                                    comment.ChangedBy = 9;
+                                }
                                 var ei = this.CreateEntityInfo(comment);
                                 List<EntityInfo> comments;
                                 if (!saveMap.TryGetValue(typeof(History), out comments))
@@ -218,10 +247,21 @@ namespace MyContact.Controllers
 
         }
         [HttpGet]
-        public IQueryable<User> GetCurrentUserDetails()
+        public IQueryable<User> GetCurrentUserDetails(int userId=0)
         {
-            return _contextProvider.Context.Users.Where<User>(t => t.Id == WebSecurity.CurrentUserId);
+            IQueryable<User> temp;
+            try
+            {
 
+                int currentuser = ((WebSecurity.CurrentUserId < 0) ? userId : WebSecurity.CurrentUserId);
+                
+                temp = _contextProvider.Context.Users.Where<User>(t => t.Id == currentuser);
+            }
+            catch
+            {
+                temp= _contextProvider.Context.Users;
+            }
+            return temp;
         }
         [HttpGet]
         public object Lookups()

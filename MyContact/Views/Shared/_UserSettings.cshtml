@@ -1,5 +1,5 @@
 ﻿@if (Request.IsAuthenticated) {
- <div class="usersettings">
+ <div class="usersettings" style="height:100px">
      <div class="usersettingsleft" style="text-align: right">
            Hello @Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: new { area = "" }, htmlAttributes: new { @class = "username", title = "Manage" })
      </div>
