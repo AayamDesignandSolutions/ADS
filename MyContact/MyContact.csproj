@@ -210,7 +210,6 @@
     <Content Include="App\viewmodels\details.js" />
     <Content Include="App\viewmodels\home.js" />
     <Content Include="App\viewmodels\shell.js" />
-    <Content Include="App\views\contact\contactedit.html" />
     <Content Include="App\views\contact\contacts.html" />
     <Content Include="App\views\timeSpent\timeSpentadd.html" />
     <Content Include="App\views\timeSpent\timeSpentedit.html" />
