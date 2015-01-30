@@ -12,24 +12,23 @@ namespace MyContact.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Issue
+    public partial class City
     {
-        public Issue()
+        public City()
         {
-            this.TimeSpents = new HashSet<TimeSpent>();
-            this.IssueComments = new HashSet<IssueComment>();
-            this.IssueWatchers = new HashSet<IssueWatcher>();
+            this.Domains = new HashSet<Domain>();
+            this.UserProfiles = new HashSet<UserProfile>();
+            this.UserProfiles1 = new HashSet<UserProfile>();
         }
     
         public int Id { get; set; }
-        public string IssueSubject { get; set; }
-        public string IssueDetails { get; set; }
-        public int AssignedTo { get; set; }
+        public string Name { get; set; }
+        public int StateId { get; set; }
         public System.DateTime CreatedDate { get; set; }
     
-        public virtual User User { get; set; }
-        public virtual ICollection<TimeSpent> TimeSpents { get; set; }
-        public virtual ICollection<IssueComment> IssueComments { get; set; }
-        public virtual ICollection<IssueWatcher> IssueWatchers { get; set; }
+        public virtual State State { get; set; }
+        public virtual ICollection<Domain> Domains { get; set; }
+        public virtual ICollection<UserProfile> UserProfiles { get; set; }
+        public virtual ICollection<UserProfile> UserProfiles1 { get; set; }
     }
 }

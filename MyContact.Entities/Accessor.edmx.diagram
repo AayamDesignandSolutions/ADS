@@ -13,6 +13,26 @@
         <EntityTypeShape EntityType="AccessorModel.TimeSpent" Width="1.5" PointX="6.3436376984900038" PointY="17.789093741117554" />
         <AssociationConnector Association="AccessorModel.FK_TimeSpent_Issue" />
         <AssociationConnector Association="AccessorModel.FK_TimeSpent_User" />
+        <EntityTypeShape EntityType="AccessorModel.City" Width="1.5" PointX="2.973770478262459" PointY="6.664014327649034" />
+        <EntityTypeShape EntityType="AccessorModel.Country" Width="1.5" PointX="2.4371529959315215" PointY="30.407342254373869" />
+        <EntityTypeShape EntityType="AccessorModel.Domain" Width="1.5" PointX="2.2380890540024678" PointY="21.3142977903198" />
+        <EntityTypeShape EntityType="AccessorModel.DomainGroupUser" Width="1.5" PointX="5.8268933286084295" PointY="9.2025097800430427" />
+        <EntityTypeShape EntityType="AccessorModel.IssueComment" Width="1.5" PointX="8.5502191337524991" PointY="2.3455517600968254" />
+        <EntityTypeShape EntityType="AccessorModel.IssueWatcher" Width="1.5" PointX="11.698076259204221" PointY="24.751141663990516" />
+        <EntityTypeShape EntityType="AccessorModel.State" Width="1.5" PointX="3.54288717524283" PointY="7.09548020693263" />
+        <EntityTypeShape EntityType="AccessorModel.UserProfile" Width="1.5" PointX="5.4658439780892074" PointY="18.324219965526936" />
+        <EntityTypeShape EntityType="AccessorModel.WorkingGroup" Width="1.5" PointX="7.9229679479836337" PointY="6.59395408937426" />
+        <AssociationConnector Association="AccessorModel.FK_City_State" />
+        <AssociationConnector Association="AccessorModel.FK_Domain_City" />
+        <AssociationConnector Association="AccessorModel.FK_UserProfile_City" />
+        <AssociationConnector Association="AccessorModel.FK_UserProfile_City1" />
+        <AssociationConnector Association="AccessorModel.FK_State_Country" />
+        <AssociationConnector Association="AccessorModel.FK_DomainGroupUser_Domain" />
+        <AssociationConnector Association="AccessorModel.FK_WorkingGroup_Domain" />
+        <AssociationConnector Association="AccessorModel.FK_IssueComment_Issue" />
+        <AssociationConnector Association="AccessorModel.FK_IssueWatcher_Issue" />
+        <AssociationConnector Association="AccessorModel.FK_IssueComment_User" />
+        <AssociationConnector Association="AccessorModel.FK_UserProfile_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

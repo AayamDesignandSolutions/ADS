@@ -18,6 +18,7 @@ namespace MyContact.Entities
         {
             this.Issues = new HashSet<Issue>();
             this.TimeSpents = new HashSet<TimeSpent>();
+            this.IssueComments = new HashSet<IssueComment>();
         }
     
         public int Id { get; set; }
@@ -28,5 +29,7 @@ namespace MyContact.Entities
     
         public virtual ICollection<Issue> Issues { get; set; }
         public virtual ICollection<TimeSpent> TimeSpents { get; set; }
+        public virtual ICollection<IssueComment> IssueComments { get; set; }
+        public virtual UserProfile UserProfile { get; set; }
     }
 }

@@ -6,14 +6,51 @@
     <edmx:StorageModels>
     <Schema Namespace="AccessorModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="AccessorModelStoreContainer">
+          <EntitySet Name="City" EntityType="AccessorModel.Store.City" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Contact" EntityType="AccessorModel.Store.Contact" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Country" EntityType="AccessorModel.Store.Country" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Domain" EntityType="AccessorModel.Store.Domain" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DomainGroupUser" EntityType="AccessorModel.Store.DomainGroupUser" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="History" EntityType="AccessorModel.Store.History" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Issue" EntityType="AccessorModel.Store.Issue" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="IssueComment" EntityType="AccessorModel.Store.IssueComment" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="IssueWatcher" EntityType="AccessorModel.Store.IssueWatcher" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="State" EntityType="AccessorModel.Store.State" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TimeSpent" EntityType="AccessorModel.Store.TimeSpent" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="User" EntityType="AccessorModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserProfile" EntityType="AccessorModel.Store.UserProfile" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="WorkingGroup" EntityType="AccessorModel.Store.WorkingGroup" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_City_State" Association="AccessorModel.Store.FK_City_State">
+            <End Role="State" EntitySet="State" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Domain_City" Association="AccessorModel.Store.FK_Domain_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="Domain" EntitySet="Domain" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DomainGroupUser_Domain" Association="AccessorModel.Store.FK_DomainGroupUser_Domain">
+            <End Role="Domain" EntitySet="Domain" />
+            <End Role="DomainGroupUser" EntitySet="DomainGroupUser" />
+          </AssociationSet>
           <AssociationSet Name="FK_Issue_User" Association="AccessorModel.Store.FK_Issue_User">
             <End Role="User" EntitySet="User" />
             <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueComment_Issue" Association="AccessorModel.Store.FK_IssueComment_Issue">
+            <End Role="Issue" EntitySet="Issue" />
+            <End Role="IssueComment" EntitySet="IssueComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueComment_User" Association="AccessorModel.Store.FK_IssueComment_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="IssueComment" EntitySet="IssueComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueWatcher_Issue" Association="AccessorModel.Store.FK_IssueWatcher_Issue">
+            <End Role="Issue" EntitySet="Issue" />
+            <End Role="IssueWatcher" EntitySet="IssueWatcher" />
+          </AssociationSet>
+          <AssociationSet Name="FK_State_Country" Association="AccessorModel.Store.FK_State_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="State" EntitySet="State" />
           </AssociationSet>
           <AssociationSet Name="FK_TimeSpent_Issue" Association="AccessorModel.Store.FK_TimeSpent_Issue">
             <End Role="Issue" EntitySet="Issue" />
@@ -23,7 +60,32 @@
             <End Role="User" EntitySet="User" />
             <End Role="TimeSpent" EntitySet="TimeSpent" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserProfile_City" Association="AccessorModel.Store.FK_UserProfile_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfile_City1" Association="AccessorModel.Store.FK_UserProfile_City1">
+            <End Role="City" EntitySet="City" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfile_User" Association="AccessorModel.Store.FK_UserProfile_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkingGroup_Domain" Association="AccessorModel.Store.FK_WorkingGroup_Domain">
+            <End Role="Domain" EntitySet="Domain" />
+            <End Role="WorkingGroup" EntitySet="WorkingGroup" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="StateId" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Contact">
           <Key>
             <PropertyRef Name="Id" />
@@ -32,6 +94,36 @@
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="100" />
           <Property Name="Mobile" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="Email" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Domain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="Address" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="City" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DomainGroupUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DomainId" Type="int" Nullable="false" />
+          <Property Name="WorkingGroupId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="History">
           <Key>
@@ -56,6 +148,34 @@
           <Property Name="AssignedTo" Type="int" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="IssueComment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IssueId" Type="int" Nullable="false" />
+          <Property Name="CommentText" Type="varchar(max)" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IssueWatcher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IssueId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="TimeSpent">
           <Key>
             <PropertyRef Name="Id" />
@@ -77,6 +197,70 @@
           <Property Name="Active" Type="bit" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="DisplayName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="DomainId" Type="int" Nullable="false" />
+          <Property Name="Address" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="City" Type="int" Nullable="false" />
+          <Property Name="Zip" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Phone1" Type="varchar" MaxLength="20" />
+          <Property Name="Phone2" Type="varchar" MaxLength="20" />
+          <Property Name="Mobile" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="EmailId" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="DateOfBirth" Type="datetime" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkingGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="GroupName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="EmailId" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="DomainId" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_City_State">
+          <End Role="State" Type="AccessorModel.Store.State" Multiplicity="1" />
+          <End Role="City" Type="AccessorModel.Store.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Domain_City">
+          <End Role="City" Type="AccessorModel.Store.City" Multiplicity="1" />
+          <End Role="Domain" Type="AccessorModel.Store.Domain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Domain">
+              <PropertyRef Name="City" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DomainGroupUser_Domain">
+          <End Role="Domain" Type="AccessorModel.Store.Domain" Multiplicity="1" />
+          <End Role="DomainGroupUser" Type="AccessorModel.Store.DomainGroupUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DomainGroupUser">
+              <PropertyRef Name="DomainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Issue_User">
           <End Role="User" Type="AccessorModel.Store.User" Multiplicity="1" />
           <End Role="Issue" Type="AccessorModel.Store.Issue" Multiplicity="*" />
@@ -86,6 +270,54 @@
             </Principal>
             <Dependent Role="Issue">
               <PropertyRef Name="AssignedTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueComment_Issue">
+          <End Role="Issue" Type="AccessorModel.Store.Issue" Multiplicity="1" />
+          <End Role="IssueComment" Type="AccessorModel.Store.IssueComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueComment">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueComment_User">
+          <End Role="User" Type="AccessorModel.Store.User" Multiplicity="1" />
+          <End Role="IssueComment" Type="AccessorModel.Store.IssueComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueComment">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueWatcher_Issue">
+          <End Role="Issue" Type="AccessorModel.Store.Issue" Multiplicity="1" />
+          <End Role="IssueWatcher" Type="AccessorModel.Store.IssueWatcher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueWatcher">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_State_Country">
+          <End Role="Country" Type="AccessorModel.Store.Country" Multiplicity="1" />
+          <End Role="State" Type="AccessorModel.Store.State" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="State">
+              <PropertyRef Name="CountryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -113,6 +345,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserProfile_City">
+          <End Role="City" Type="AccessorModel.Store.City" Multiplicity="1" />
+          <End Role="UserProfile" Type="AccessorModel.Store.UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="City" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfile_City1">
+          <End Role="City" Type="AccessorModel.Store.City" Multiplicity="1" />
+          <End Role="UserProfile" Type="AccessorModel.Store.UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="City" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfile_User">
+          <End Role="User" Type="AccessorModel.Store.User" Multiplicity="1" />
+          <End Role="UserProfile" Type="AccessorModel.Store.UserProfile" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkingGroup_Domain">
+          <End Role="Domain" Type="AccessorModel.Store.Domain" Multiplicity="1" />
+          <End Role="WorkingGroup" Type="AccessorModel.Store.WorkingGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkingGroup">
+              <PropertyRef Name="DomainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -134,6 +414,59 @@
           <AssociationSet Name="FK_TimeSpent_User" Association="AccessorModel.FK_TimeSpent_User">
             <End Role="User" EntitySet="Users" />
             <End Role="TimeSpent" EntitySet="TimeSpents" />
+          </AssociationSet>
+          <EntitySet Name="Cities" EntityType="AccessorModel.City" />
+          <EntitySet Name="Countries" EntityType="AccessorModel.Country" />
+          <EntitySet Name="Domains" EntityType="AccessorModel.Domain" />
+          <EntitySet Name="DomainGroupUsers" EntityType="AccessorModel.DomainGroupUser" />
+          <EntitySet Name="IssueComments" EntityType="AccessorModel.IssueComment" />
+          <EntitySet Name="IssueWatchers" EntityType="AccessorModel.IssueWatcher" />
+          <EntitySet Name="States" EntityType="AccessorModel.State" />
+          <EntitySet Name="UserProfiles" EntityType="AccessorModel.UserProfile" />
+          <EntitySet Name="WorkingGroups" EntityType="AccessorModel.WorkingGroup" />
+          <AssociationSet Name="FK_City_State" Association="AccessorModel.FK_City_State">
+            <End Role="State" EntitySet="States" />
+            <End Role="City" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Domain_City" Association="AccessorModel.FK_Domain_City">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="Domain" EntitySet="Domains" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfile_City" Association="AccessorModel.FK_UserProfile_City">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfile_City1" Association="AccessorModel.FK_UserProfile_City1">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_State_Country" Association="AccessorModel.FK_State_Country">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="State" EntitySet="States" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DomainGroupUser_Domain" Association="AccessorModel.FK_DomainGroupUser_Domain">
+            <End Role="Domain" EntitySet="Domains" />
+            <End Role="DomainGroupUser" EntitySet="DomainGroupUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkingGroup_Domain" Association="AccessorModel.FK_WorkingGroup_Domain">
+            <End Role="Domain" EntitySet="Domains" />
+            <End Role="WorkingGroup" EntitySet="WorkingGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueComment_Issue" Association="AccessorModel.FK_IssueComment_Issue">
+            <End Role="Issue" EntitySet="Issues" />
+            <End Role="IssueComment" EntitySet="IssueComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueWatcher_Issue" Association="AccessorModel.FK_IssueWatcher_Issue">
+            <End Role="Issue" EntitySet="Issues" />
+            <End Role="IssueWatcher" EntitySet="IssueWatchers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueComment_User" Association="AccessorModel.FK_IssueComment_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="IssueComment" EntitySet="IssueComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfile_User" Association="AccessorModel.FK_UserProfile_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserProfile" EntitySet="UserProfiles" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Contact">
@@ -169,6 +502,8 @@
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="User" Relationship="AccessorModel.FK_Issue_User" FromRole="Issue" ToRole="User" />
           <NavigationProperty Name="TimeSpents" Relationship="AccessorModel.FK_TimeSpent_Issue" FromRole="Issue" ToRole="TimeSpent" />
+          <NavigationProperty Name="IssueComments" Relationship="AccessorModel.FK_IssueComment_Issue" FromRole="Issue" ToRole="IssueComment" />
+          <NavigationProperty Name="IssueWatchers" Relationship="AccessorModel.FK_IssueWatcher_Issue" FromRole="Issue" ToRole="IssueWatcher" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -181,6 +516,8 @@
           <NavigationProperty Name="Issues" Relationship="AccessorModel.FK_Issue_User" FromRole="User" ToRole="Issue" />
           <NavigationProperty Name="TimeSpents" Relationship="AccessorModel.FK_TimeSpent_User" FromRole="User" ToRole="TimeSpent" />
           <Property Type="String" Name="DisplayName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="IssueComments" Relationship="AccessorModel.FK_IssueComment_User" FromRole="User" ToRole="IssueComment" />
+          <NavigationProperty Name="UserProfile" Relationship="AccessorModel.FK_UserProfile_User" FromRole="User" ToRole="UserProfile" />
         </EntityType>
         <Association Name="FK_Issue_User">
           <End Role="User" Type="AccessorModel.User" Multiplicity="1" />
@@ -227,6 +564,251 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="TimeSpent">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="StateId" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <NavigationProperty Name="State" Relationship="AccessorModel.FK_City_State" FromRole="City" ToRole="State" />
+          <NavigationProperty Name="Domains" Relationship="AccessorModel.FK_Domain_City" FromRole="City" ToRole="Domain" />
+          <NavigationProperty Name="UserProfiles" Relationship="AccessorModel.FK_UserProfile_City" FromRole="City" ToRole="UserProfile" />
+          <NavigationProperty Name="UserProfiles1" Relationship="AccessorModel.FK_UserProfile_City1" FromRole="City" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <NavigationProperty Name="States" Relationship="AccessorModel.FK_State_Country" FromRole="Country" ToRole="State" />
+        </EntityType>
+        <EntityType Name="Domain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Active" Nullable="false" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="City" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <NavigationProperty Name="City1" Relationship="AccessorModel.FK_Domain_City" FromRole="Domain" ToRole="City" />
+          <NavigationProperty Name="DomainGroupUsers" Relationship="AccessorModel.FK_DomainGroupUser_Domain" FromRole="Domain" ToRole="DomainGroupUser" />
+          <NavigationProperty Name="WorkingGroups" Relationship="AccessorModel.FK_WorkingGroup_Domain" FromRole="Domain" ToRole="WorkingGroup" />
+        </EntityType>
+        <EntityType Name="DomainGroupUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="DomainId" Nullable="false" />
+          <Property Type="Int32" Name="WorkingGroupId" Nullable="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="Boolean" Name="IsAdmin" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Domain" Relationship="AccessorModel.FK_DomainGroupUser_Domain" FromRole="DomainGroupUser" ToRole="Domain" />
+        </EntityType>
+        <EntityType Name="IssueComment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IssueId" Nullable="false" />
+          <Property Type="String" Name="CommentText" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Issue" Relationship="AccessorModel.FK_IssueComment_Issue" FromRole="IssueComment" ToRole="Issue" />
+          <NavigationProperty Name="User" Relationship="AccessorModel.FK_IssueComment_User" FromRole="IssueComment" ToRole="User" />
+        </EntityType>
+        <EntityType Name="IssueWatcher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="IssueId" Nullable="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="Boolean" Name="Active" Nullable="false" />
+          <NavigationProperty Name="Issue" Relationship="AccessorModel.FK_IssueWatcher_Issue" FromRole="IssueWatcher" ToRole="Issue" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="CountryId" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Cities" Relationship="AccessorModel.FK_City_State" FromRole="State" ToRole="City" />
+          <NavigationProperty Name="Country" Relationship="AccessorModel.FK_State_Country" FromRole="State" ToRole="Country" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="DisplayName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="DomainId" Nullable="false" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="City" Nullable="false" />
+          <Property Type="String" Name="Zip" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Phone1" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Phone2" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Mobile" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EmailId" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="DateOfBirth" Precision="3" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <NavigationProperty Name="City1" Relationship="AccessorModel.FK_UserProfile_City" FromRole="UserProfile" ToRole="City" />
+          <NavigationProperty Name="City2" Relationship="AccessorModel.FK_UserProfile_City1" FromRole="UserProfile" ToRole="City" />
+          <NavigationProperty Name="User" Relationship="AccessorModel.FK_UserProfile_User" FromRole="UserProfile" ToRole="User" />
+        </EntityType>
+        <EntityType Name="WorkingGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="GroupName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EmailId" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="DomainId" Nullable="false" />
+          <Property Type="Boolean" Name="Active" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Domain" Relationship="AccessorModel.FK_WorkingGroup_Domain" FromRole="WorkingGroup" ToRole="Domain" />
+        </EntityType>
+        <Association Name="FK_City_State">
+          <End Type="AccessorModel.State" Role="State" Multiplicity="1" />
+          <End Type="AccessorModel.City" Role="City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="StateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Domain_City">
+          <End Type="AccessorModel.City" Role="City" Multiplicity="1" />
+          <End Type="AccessorModel.Domain" Role="Domain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Domain">
+              <PropertyRef Name="City" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfile_City">
+          <End Type="AccessorModel.City" Role="City" Multiplicity="1" />
+          <End Type="AccessorModel.UserProfile" Role="UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="City" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfile_City1">
+          <End Type="AccessorModel.City" Role="City" Multiplicity="1" />
+          <End Type="AccessorModel.UserProfile" Role="UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="City" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_State_Country">
+          <End Type="AccessorModel.Country" Role="Country" Multiplicity="1" />
+          <End Type="AccessorModel.State" Role="State" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="State">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DomainGroupUser_Domain">
+          <End Type="AccessorModel.Domain" Role="Domain" Multiplicity="1" />
+          <End Type="AccessorModel.DomainGroupUser" Role="DomainGroupUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DomainGroupUser">
+              <PropertyRef Name="DomainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkingGroup_Domain">
+          <End Type="AccessorModel.Domain" Role="Domain" Multiplicity="1" />
+          <End Type="AccessorModel.WorkingGroup" Role="WorkingGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkingGroup">
+              <PropertyRef Name="DomainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueComment_Issue">
+          <End Type="AccessorModel.Issue" Role="Issue" Multiplicity="1" />
+          <End Type="AccessorModel.IssueComment" Role="IssueComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueComment">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueWatcher_Issue">
+          <End Type="AccessorModel.Issue" Role="Issue" Multiplicity="1" />
+          <End Type="AccessorModel.IssueWatcher" Role="IssueWatcher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueWatcher">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueComment_User">
+          <End Type="AccessorModel.User" Role="User" Multiplicity="1" />
+          <End Type="AccessorModel.IssueComment" Role="IssueComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueComment">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfile_User">
+          <End Type="AccessorModel.User" Role="User" Multiplicity="1" />
+          <End Type="AccessorModel.UserProfile" Role="UserProfile" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserProfile">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -291,6 +873,110 @@
                 <ScalarProperty Name="TimeSpent1" ColumnName="TimeSpent" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="AccessorModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="AccessorModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Domains">
+            <EntityTypeMapping TypeName="AccessorModel.Domain">
+              <MappingFragment StoreEntitySet="Domain">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DomainGroupUsers">
+            <EntityTypeMapping TypeName="AccessorModel.DomainGroupUser">
+              <MappingFragment StoreEntitySet="DomainGroupUser">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="WorkingGroupId" ColumnName="WorkingGroupId" />
+                <ScalarProperty Name="DomainId" ColumnName="DomainId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueComments">
+            <EntityTypeMapping TypeName="AccessorModel.IssueComment">
+              <MappingFragment StoreEntitySet="IssueComment">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CommentText" ColumnName="CommentText" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueWatchers">
+            <EntityTypeMapping TypeName="AccessorModel.IssueWatcher">
+              <MappingFragment StoreEntitySet="IssueWatcher">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="States">
+            <EntityTypeMapping TypeName="AccessorModel.State">
+              <MappingFragment StoreEntitySet="State">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfiles">
+            <EntityTypeMapping TypeName="AccessorModel.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Phone2" ColumnName="Phone2" />
+                <ScalarProperty Name="Phone1" ColumnName="Phone1" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="DomainId" ColumnName="DomainId" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkingGroups">
+            <EntityTypeMapping TypeName="AccessorModel.WorkingGroup">
+              <MappingFragment StoreEntitySet="WorkingGroup">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="DomainId" ColumnName="DomainId" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -30,5 +30,14 @@ namespace MyContact.Entities
         public DbSet<Issue> Issues { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<TimeSpent> TimeSpents { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<Domain> Domains { get; set; }
+        public DbSet<DomainGroupUser> DomainGroupUsers { get; set; }
+        public DbSet<IssueComment> IssueComments { get; set; }
+        public DbSet<IssueWatcher> IssueWatchers { get; set; }
+        public DbSet<State> States { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<WorkingGroup> WorkingGroups { get; set; }
     }
 }
