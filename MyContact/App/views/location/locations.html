@@ -1,0 +1,113 @@
+﻿<section>
+    <header>
+        <h2 class="page-title" ></h2>
+    </header>
+    <div class="navbar-inner">
+        <div class="btn-group" data-bind="foreach: navOptions">
+            <a data-bind="css: { active: isActive }, click: $parent.loadData, text: title"
+                class="btn btn-info"></a>
+        </div>
+        <div class="search-content">
+            <small>Name: </small>
+            <input data-bind="value: searchName" placeholder="[name]" />
+            <button class="btn btn-info"
+                data-bind="click: search">
+                Search</button>
+            <button class="btn btn-info"
+                data-bind="click: clearSearch">
+                Clear</button>
+            <button class="btn btn-info"
+                data-bind="click: addLocation">
+                Add</button>
+        </div>
+        <div class="contact-counter">
+            <small data-bind="text: locations().length"></small>
+            <small  >found</small>
+        </div>
+        <section class="view-list" data-bind="foreach: locations">
+            <article class="contact-content" title="Go to edit">
+                <div title="Go to edit">
+                    <small data-bind="text: name" class="contactName "></small>
+                    <small data-bind="text: $parent.StateCity($data) " class="contactName "></small>
+
+                </div>
+            </article>
+        </section>
+           <div class="modal fade" id="edited-article-state">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h1 class="modal-title" data-bind="text: title"></h1>
+                    </div>
+                    <div class="modal-body">
+                        <div data-bind="with: selectedstate">
+                            <div>
+                                <label>Name:</label>
+                                <input data-bind="value: name" placeholder="[name]" />
+ 
+                            </div>
+                            <div>
+                                 <label>Country:</label>
+                                <select data-bind="options: $parent.countries,
+                                    optionsText: 'name',
+                                    value: country,
+                                    optionsCaption: 'Choose...'">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="button-margin">
+                            <button class="btn btn-info"
+                                data-bind="click: cancel, enable: hasChanges">
+                                Cancel</button>
+                            <button class="btn btn-info"
+                                data-bind="click: save, enable: canSave">
+                                Save</button>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" data-bind="click: cancel">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+           <div class="modal fade" id="edited-article-country">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h1 class="modal-title" data-bind="text: title"></h1>
+                    </div>
+                    <div class="modal-body">
+                        <div data-bind="with: selectedcountry">
+                            <div>
+                                <label>Name:</label>
+                                <input data-bind="value: name" placeholder="[name]" />
+ 
+                            </div>
+                           
+
+                           
+                        </div>
+                        <div class="button-margin">
+                            <button class="btn btn-info"
+                                data-bind="click: cancel, enable: hasChanges">
+                                Cancel</button>
+                            <button class="btn btn-info"
+                                data-bind="click: save, enable: canSave">
+                                Save</button>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" data-bind="click: cancel">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <h2 class="contact-footer" style=""></h2>
+    </footer>
+</section>

@@ -40,7 +40,7 @@ namespace MyContact
                 .Include("~/Content/app.css")
                 .Include("~/Content/style.css")
                 .Include("~/Content/moment-datepicker/datepicker.css")
-
+            
               );
 
            

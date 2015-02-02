@@ -108,6 +108,15 @@ namespace MyContact.Controllers
                                     case "TimeSpent":
                                         entity = (TimeSpent)item.Entity;
                                         break;
+                                    case "City":
+                                        entity = (City)item.Entity;
+                                        break;
+                                    case "State":
+                                        entity = (State)item.Entity;
+                                        break;
+                                    case "Country":
+                                        entity = (Country)item.Entity;
+                                        break;
                                 }
 
 
@@ -247,6 +256,26 @@ namespace MyContact.Controllers
 
         }
         [HttpGet]
+        public IQueryable<City> Cities()
+        {
+            return _contextProvider.Context.Cities;
+
+        }
+        [HttpGet]
+        public IQueryable<State> States()
+        {
+            return _contextProvider.Context.States;
+
+        }
+        [HttpGet]
+        public IQueryable<Country> Countries()
+        {
+            return _contextProvider.Context.Countries;
+
+        }
+
+
+        [HttpGet]
         public IQueryable<User> GetCurrentUserDetails(int userId=0)
         {
             IQueryable<User> temp;
@@ -270,7 +299,12 @@ namespace MyContact.Controllers
             var issues = _contextProvider.Context.Issues;
             var histories = _contextProvider.Context.Histories;
             var timespents = _contextProvider.Context.TimeSpents ;
-            return new { users, issues, histories, timespents };
+
+            var cities = _contextProvider.Context.Cities;
+            var states = _contextProvider.Context.States;
+            var countries = _contextProvider.Context.Countries;
+
+            return new { users, issues, histories, timespents, cities, states, countries };
         }
 
 

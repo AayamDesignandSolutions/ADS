@@ -33,7 +33,8 @@
                 { route: 'todo', moduleId: 'user/todo', title: 'To Do', nav: 4 },
                 { route: 'timeSpent', moduleId: 'timeSpent/timeSpents', title: 'Time Spent', nav: 5 },
                 { route: 'timeSpentadd', moduleId: 'timeSpent/timeSpentadd', title: 'TimeSpent add', nav: 0 },
-                { route: 'timeSpentedit/:id', moduleId: 'timeSpent/timeSpentedit', title: 'TimeSpent edit', nav: 0 }
+                { route: 'timeSpentedit/:id', moduleId: 'timeSpent/timeSpentedit', title: 'TimeSpent edit', nav: 0 },
+                { route: 'location', moduleId: 'location/locations', title: 'Locations', nav: 6 }
                 ];
 
             return router.makeRelative({ moduleId: 'viewmodels' }) // router will look here for viewmodels by convention
