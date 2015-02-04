@@ -117,6 +117,9 @@ namespace MyContact.Controllers
                                     case "Country":
                                         entity = (Country)item.Entity;
                                         break;
+                                    case "Domain":
+                                        entity = (Domain)item.Entity;
+                                        break;
                                 }
 
 
@@ -127,7 +130,7 @@ namespace MyContact.Controllers
                                 comment.ChangeDate = DateTime.Now;
                                 try
                                 {
-                                    comment.ChangedBy = WebSecurity.CurrentUserId;
+                                    comment.ChangedBy = MyContact.Entities.AccessorEntities.CurrentUser.Id;
                                 }
                                 catch
                                 {
@@ -273,25 +276,53 @@ namespace MyContact.Controllers
             return _contextProvider.Context.Countries;
 
         }
+        [HttpGet]
+        public IQueryable<Domain> Domains()
+        {
+            return _contextProvider.Context.Domains;
 
+        }
 
         [HttpGet]
-        public IQueryable<User> GetCurrentUserDetails(int userId=0)
+        public IQueryable<User> GetCurrentUserDetails(string userName)
         {
             IQueryable<User> temp;
             try
             {
+                var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(userName);
+                userName= System.Convert.ToBase64String(plainTextBytes);
+                //int currentuser = ((WebSecurity.CurrentUserId < 0) ? userId : WebSecurity.CurrentUserId);
 
-                int currentuser = ((WebSecurity.CurrentUserId < 0) ? userId : WebSecurity.CurrentUserId);
-                
-                temp = _contextProvider.Context.Users.Where<User>(t => t.Id == currentuser);
+                temp = _contextProvider.Context.Users.Where<User>(t => t.UserName == userName);
             }
             catch
             {
                 temp= _contextProvider.Context.Users;
             }
             return temp;
+        
         }
+
+        [HttpGet]
+        public IQueryable<User> GetCurrentUserDetails()
+        {
+            IQueryable<User> temp;
+            try
+            {
+
+                int currentuser = MyContact.Entities.AccessorEntities.CurrentUser.Id;
+
+                temp = _contextProvider.Context.Users.Where<User>(t => t.Id == currentuser);
+            }
+            catch
+            {
+                temp = _contextProvider.Context.Users;
+            }
+            return temp;
+
+        }
+
+
         [HttpGet]
         public object Lookups()
         {

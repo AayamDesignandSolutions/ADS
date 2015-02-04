@@ -80,6 +80,7 @@
     <Compile Include="History.cs">
       <DependentUpon>Accessor.tt</DependentUpon>
     </Compile>
+    <Compile Include="ICustomPrincipal.cs" />
     <Compile Include="Issue.cs">
       <DependentUpon>Accessor.tt</DependentUpon>
     </Compile>

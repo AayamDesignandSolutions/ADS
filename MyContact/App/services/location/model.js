@@ -8,6 +8,7 @@
             city: 'Name',
             state: 'Name',
             country: 'Name',
+            domain: 'Name'
 
         };
 
@@ -15,7 +16,8 @@
         var entityNames = {
             city: 'City',
             state: 'State',
-            country: 'Country'
+            country: 'Country',
+            domain: 'Domain'
         };
 
         var model = {
@@ -34,6 +36,8 @@
                'State', function () { this.isPartial = false; });
             metadataStore.registerEntityTypeCtor(
                'Country', function () { this.isPartial = false; });
+            metadataStore.registerEntityTypeCtor(
+              'Domain', function () { this.isPartial = false; });
 
             referenceCheckValidator = createReferenceCheckValidator();
             Validator.register(referenceCheckValidator);

@@ -12,7 +12,7 @@ define([
         var orderBy = model.orderBy;
         var entityNames = model.entityNames;
 
-            
+        //-----------------------Country--------------------------------------------------------------------------------------------------
         var getAllCountryDetails = function (locationObservable) {
 
             var query = EntityQuery.from('Countries')
@@ -35,166 +35,23 @@ define([
 
             }
         };
-
-
-        var getAllStateDetails = function (locationObservable) {
-
-            var query = EntityQuery.from('States')
-                .select('id, name,country')
-                .orderBy('id');
-            return manager.executeQuery(query)
-                        .then(querySucceeded)
-                        .fail(queryFailed);
-
-            function querySucceeded(data) {
-                var list = partialMapper.mapDtosToEntities(
-                    manager, data.results, entityNames.state, 'id');
-
-                if (locationObservable) {
-                    locationObservable(list);
-                }
-
-                log('Retrieved [' + entityNames.state + '] from remote data source',
-                    data, true);
-
-            }
-        };
-
-        var getAllCityDetails = function (locationObservable) {
-
-            var query = EntityQuery.from('Cities')
-                .select('id, name,state')
-                .orderBy('id');
-            return manager.executeQuery(query)
-                        .then(querySucceeded)
-                        .fail(queryFailed);
-
-            function querySucceeded(data) {
-                var list = partialMapper.mapDtosToEntities(
-                    manager, data.results, entityNames.city, 'id');
-
-                if (locationObservable) {
-                    locationObservable(list);
-                }
-
-                log('Retrieved [' + entityNames.city + '] from remote data source',
-                    data, true);
-
-            }
-        };
-
-    
-
-        var createCity = function (city) {
-            //hasMetadataFor  will get call while contactadd.html call in the very first time.
-            //Bacause model.js is not know the metadata object while calling createContact funtion in the very first time
-            if (!manager.metadataStore.hasMetadataFor(config.remoteServiceName)) {
-                manager.metadataStore.fetchMetadata(config.remoteServiceName, fetchMetadataSuccess, fetchMetadataSuccess);
-            } else {
-                city(manager.createEntity(entityNames.city));
-            }
-
-            function fetchMetadataSuccess(rawMetadata) {
-                city(manager.createEntity(entityNames.city));
-            }
-
-            function fetchMetadataFail(exception) {
-
-            }
-        };
-
-        var createState = function (state) {
-            //hasMetadataFor  will get call while contactadd.html call in the very first time.
-            //Bacause model.js is not know the metadata object while calling createContact funtion in the very first time
-            if (!manager.metadataStore.hasMetadataFor(config.remoteServiceName)) {
-                manager.metadataStore.fetchMetadata(config.remoteServiceName, fetchMetadataSuccess, fetchMetadataSuccess);
-            } else {
-                state(manager.createEntity(entityNames.state));
-            }
-
-            function fetchMetadataSuccess(rawMetadata) {
-                state(manager.createEntity(entityNames.state));
-            }
-
-            function fetchMetadataFail(exception) {
-
-            }
-        };
-
         var createCountry = function (country) {
-                //hasMetadataFor  will get call while contactadd.html call in the very first time.
-                //Bacause model.js is not know the metadata object while calling createContact funtion in the very first time
-                if (!manager.metadataStore.hasMetadataFor(config.remoteServiceName)) {
-                    manager.metadataStore.fetchMetadata(config.remoteServiceName, fetchMetadataSuccess, fetchMetadataSuccess);
-                } else {
-                    country(manager.createEntity(entityNames.country));
-                }
-
-                function fetchMetadataSuccess(rawMetadata) {
-                    country(manager.createEntity(entityNames.country));
-                }
-
-                function fetchMetadataFail(exception) {
-
-                }
-        };
-
-   
-
-        var getACityDetail = function (locationId, locationObservable) {
-
-            return manager.fetchEntityByKey(
-               entityNames.city, locationId, true)
-               .then(fetchSucceeded)
-               .fail(queryFailed);
-
-            function fetchSucceeded(data) {
-                var s = data.entity;
-                return s.isPartial() ? refreshcity(s) : locationObservable(s);
+            //hasMetadataFor  will get call while contactadd.html call in the very first time.
+            //Bacause model.js is not know the metadata object while calling createContact funtion in the very first time
+            if (!manager.metadataStore.hasMetadataFor(config.remoteServiceName)) {
+                manager.metadataStore.fetchMetadata(config.remoteServiceName, fetchMetadataSuccess, fetchMetadataSuccess);
+            } else {
+                country(manager.createEntity(entityNames.country));
             }
 
-            function refreshcity(city) {
-                return EntityQuery.fromEntities(city)
-                    .using(manager).execute()
-                    .then(querySucceeded)
-                    .fail(queryFailed);
+            function fetchMetadataSuccess(rawMetadata) {
+                country(manager.createEntity(entityNames.country));
             }
 
-            function querySucceeded(data) {
-                var s = data.results[0];
-                s.isPartial(false);
-                log('Retrieved [' + entityNames.city + '] from remote data source', s, true);
-                return locationObservable(s);
+            function fetchMetadataFail(exception) {
+
             }
         };
-
-        var getAStateDetail = function (locationId, locationObservable) {
-
-            return manager.fetchEntityByKey(
-               entityNames.state, locationId, true)
-               .then(fetchSucceeded)
-               .fail(queryFailed);
-
-            function fetchSucceeded(data) {
-                var s = data.entity;
-                return s.isPartial() ? refreshstate(s) : locationObservable(s);
-            }
-
-            function refreshstate(state) {
-                return EntityQuery.fromEntities(state)
-                    .using(manager).execute()
-                    .then(querySucceeded)
-                    .fail(queryFailed);
-            }
-
-            function querySucceeded(data) {
-                var s = data.results[0];
-                s.isPartial(false);
-                log('Retrieved [' + entityNames.state + '] from remote data source', s, true);
-                return locationObservable(s);
-            }
-        };
-
         var getACountryDetail = function (locationId, locationObservable) {
 
             return manager.fetchEntityByKey(
@@ -221,55 +78,6 @@ define([
                 return locationObservable(s);
             }
         };
-
-  
-
-        var getAllCityDetailsWithSearch = function (locationObservable, search) {
-
-            var query = EntityQuery.from('Cities')
-                .select('id, name, state')
-                .where('name', 'substringof', search)
-                .orderBy('id');
-            return manager.executeQuery(query)
-                        .then(querySucceeded)
-                        .fail(queryFailed);
-
-            function querySucceeded(data) {
-                var list = partialMapper.mapDtosToEntities(
-                    manager, data.results, entityNames.city, 'id');
-
-                if (locationObservable) {
-                    locationObservable(list);
-                }
-                log('Retrieved [' + entityNames.city + '] from remote data source',
-                    data, true);
-
-            }
-        };
-
-        var getAllStateDetailsWithSearch = function (locationObservable, search) {
-
-            var query = EntityQuery.from('States')
-                .select('id, name, country')
-                .where('name', 'substringof', search)
-                .orderBy('id');
-            return manager.executeQuery(query)
-                        .then(querySucceeded)
-                        .fail(queryFailed);
-
-            function querySucceeded(data) {
-                var list = partialMapper.mapDtosToEntities(
-                    manager, data.results, entityNames.state, 'id');
-
-                if (locationObservable) {
-                    locationObservable(list);
-                }
-                log('Retrieved [' + entityNames.state + '] from remote data source',
-                    data, true);
-
-            }
-        };
-
         var getAllCountryDetailsWithSearch = function (locationObservable, search) {
 
             var query = EntityQuery.from('Countries')
@@ -292,8 +100,323 @@ define([
 
             }
         };
-
         //----------------------------------------------------------------------------------------------------------------------------------
+
+        //-----------------------State----------------------------------------------------------------------------------------------------
+        var getAllStateDetails = function (locationObservable) {
+
+            var query = EntityQuery.from('States')
+                .select('id, name,country')
+                .orderBy('id');
+            return manager.executeQuery(query)
+                        .then(querySucceeded)
+                        .fail(queryFailed);
+
+            function querySucceeded(data) {
+                var list = partialMapper.mapDtosToEntities(
+                    manager, data.results, entityNames.state, 'id');
+
+                if (locationObservable) {
+                    locationObservable(list);
+                }
+
+                log('Retrieved [' + entityNames.state + '] from remote data source',
+                    data, true);
+
+            }
+        };
+        var createState = function (state) {
+            //hasMetadataFor  will get call while contactadd.html call in the very first time.
+            //Bacause model.js is not know the metadata object while calling createContact funtion in the very first time
+            if (!manager.metadataStore.hasMetadataFor(config.remoteServiceName)) {
+                manager.metadataStore.fetchMetadata(config.remoteServiceName, fetchMetadataSuccess, fetchMetadataSuccess);
+            } else {
+                state(manager.createEntity(entityNames.state));
+            }
+
+            function fetchMetadataSuccess(rawMetadata) {
+                state(manager.createEntity(entityNames.state));
+            }
+
+            function fetchMetadataFail(exception) {
+
+            }
+        };
+        var getAStateDetail = function (locationId, locationObservable) {
+
+            return manager.fetchEntityByKey(
+               entityNames.state, locationId, true)
+               .then(fetchSucceeded)
+               .fail(queryFailed);
+
+            function fetchSucceeded(data) {
+                var s = data.entity;
+                return s.isPartial() ? refreshstate(s) : locationObservable(s);
+            }
+
+            function refreshstate(state) {
+                return EntityQuery.fromEntities(state)
+                    .using(manager).execute()
+                    .then(querySucceeded)
+                    .fail(queryFailed);
+            }
+
+            function querySucceeded(data) {
+                var s = data.results[0];
+                s.isPartial(false);
+                log('Retrieved [' + entityNames.state + '] from remote data source', s, true);
+                return locationObservable(s);
+            }
+        };
+        var getAllStateDetailsWithSearch = function (locationObservable, search) {
+
+            var query = EntityQuery.from('States')
+                .select('id, name, country')
+                .where('name', 'substringof', search)
+                .orderBy('id');
+            return manager.executeQuery(query)
+                        .then(querySucceeded)
+                        .fail(queryFailed);
+
+            function querySucceeded(data) {
+                var list = partialMapper.mapDtosToEntities(
+                    manager, data.results, entityNames.state, 'id');
+
+                if (locationObservable) {
+                    locationObservable(list);
+                }
+                log('Retrieved [' + entityNames.state + '] from remote data source',
+                    data, true);
+
+            }
+        };
+        var getAllStatesForCountry = function (locationObservable, countryId) {
+            var query = EntityQuery.from('States')
+               .select('id, name, country')
+               .where('countryId', '==', countryId)
+               .orderBy('id');
+            return manager.executeQuery(query)
+                        .then(querySucceeded)
+                        .fail(queryFailed);
+
+            function querySucceeded(data) {
+                var list = partialMapper.mapDtosToEntities(
+                    manager, data.results, entityNames.state, 'id');
+
+                if (locationObservable) {
+                    locationObservable(list);
+                }
+                log('Retrieved [' + entityNames.state + '] from remote data source',
+                    data, true);
+
+            }
+
+        }
+        //----------------------------------------------------------------------------------------------------------------------------------
+
+        //-----------------------City----------------------------------------------------------------------------------------------------
+        var getAllCityDetails = function (locationObservable) {
+
+            var query = EntityQuery.from('Cities')
+                .select('id, name,stateId,countryId,state,country')
+                .orderBy('id');
+            return manager.executeQuery(query)
+                        .then(querySucceeded)
+                        .fail(queryFailed);
+
+            function querySucceeded(data) {
+                var list = partialMapper.mapDtosToEntities(
+                    manager, data.results, entityNames.city, 'id');
+
+                if (locationObservable) {
+                    locationObservable(list);
+                }
+
+                log('Retrieved [' + entityNames.city + '] from remote data source',
+                    data, true);
+
+            }
+        };
+        var createCity = function (city) {
+            //hasMetadataFor  will get call while contactadd.html call in the very first time.
+            //Bacause model.js is not know the metadata object while calling createContact funtion in the very first time
+            if (!manager.metadataStore.hasMetadataFor(config.remoteServiceName)) {
+                manager.metadataStore.fetchMetadata(config.remoteServiceName, fetchMetadataSuccess, fetchMetadataSuccess);
+            } else {
+                city(manager.createEntity(entityNames.city));
+            }
+
+            function fetchMetadataSuccess(rawMetadata) {
+                city(manager.createEntity(entityNames.city));
+            }
+
+            function fetchMetadataFail(exception) {
+
+            }
+        };
+        var getACityDetail = function (locationId, locationObservable) {
+
+            return manager.fetchEntityByKey(
+               entityNames.city, locationId, true)
+               .then(fetchSucceeded)
+               .fail(queryFailed);
+
+            function fetchSucceeded(data) {
+                var s = data.entity;
+             
+                return s.isPartial() ? refreshcity(s) : locationObservable(s);
+            }
+
+            function refreshcity(city) {
+                return EntityQuery.fromEntities(city)
+                    .using(manager).execute()
+                    .then(querySucceeded)
+                    .fail(queryFailed);
+            }
+
+            function querySucceeded(data) {
+                var s = data.results[0];
+                s.isPartial(false);
+                log('Retrieved [' + entityNames.city + '] from remote data source', s, true);
+              
+                return locationObservable(s);
+            }
+        };
+        var getAllCityDetailsWithSearch = function (locationObservable, search) {
+
+            var query = EntityQuery.from('Cities')
+                .select('id, name,stateId,countryId,state,country')
+                .where('name', 'substringof', search)
+                .orderBy('id');
+            return manager.executeQuery(query)
+                        .then(querySucceeded)
+                        .fail(queryFailed);
+
+            function querySucceeded(data) {
+                var list = partialMapper.mapDtosToEntities(
+                    manager, data.results, entityNames.city, 'id');
+
+                if (locationObservable) {
+                    locationObservable(list);
+                }
+                log('Retrieved [' + entityNames.city + '] from remote data source',
+                    data, true);
+
+            }
+        };
+        var getAllCitiesForState = function (locationObservable, stateId) {
+            var query = EntityQuery.from('Cities')
+               .select('id, name, state')
+               .where('stateId', '==', stateId)
+               .orderBy('id');
+            return manager.executeQuery(query)
+                        .then(querySucceeded)
+                        .fail(queryFailed);
+
+            function querySucceeded(data) {
+                var list = partialMapper.mapDtosToEntities(
+                    manager, data.results, entityNames.city, 'id');
+
+                if (locationObservable) {
+                    locationObservable(list);
+                }
+                log('Retrieved [' + entityNames.city + '] from remote data source',
+                    data, true);
+
+            }
+
+        }
+        //----------------------------------------------------------------------------------------------------------------------------------
+        //-----------------------Domain--------------------------------------------------------------------------------------------------
+        var getAllDomainDetails = function (locationObservable) {
+
+            var query = EntityQuery.from('Domains')
+                .select('id,name,active,address,city,state,country')
+                .orderBy('id');
+            return manager.executeQuery(query)
+                        .then(querySucceeded)
+                        .fail(queryFailed);
+
+            function querySucceeded(data) {
+                var list = partialMapper.mapDtosToEntities(
+                    manager, data.results, entityNames.domain, 'id');
+
+                if (locationObservable) {
+                    locationObservable(list);
+                }
+
+                log('Retrieved [' + entityNames.domain + '] from remote data source',
+                    data, true);
+
+            }
+        };
+        var createDomain = function (domain) {
+            //hasMetadataFor  will get call while contactadd.html call in the very first time.
+            //Bacause model.js is not know the metadata object while calling createContact funtion in the very first time
+            if (!manager.metadataStore.hasMetadataFor(config.remoteServiceName)) {
+                manager.metadataStore.fetchMetadata(config.remoteServiceName, fetchMetadataSuccess, fetchMetadataSuccess);
+            } else {
+                domain(manager.createEntity(entityNames.domain));
+            }
+
+            function fetchMetadataSuccess(rawMetadata) {
+                domain(manager.createEntity(entityNames.domain));
+            }
+
+            function fetchMetadataFail(exception) {
+
+            }
+        };
+        var getADomainDetail = function (locationId, locationObservable) {
+
+            return manager.fetchEntityByKey(
+               entityNames.domain, locationId, true)
+               .then(fetchSucceeded)
+               .fail(queryFailed);
+
+            function fetchSucceeded(data) {
+                var s = data.entity;
+                return s.isPartial() ? refreshdomain(s) : locationObservable(s);
+            }
+
+            function refreshdomain(domain) {
+                return EntityQuery.fromEntities(domain)
+                    .using(manager).execute()
+                    .then(querySucceeded)
+                    .fail(queryFailed);
+            }
+
+            function querySucceeded(data) {
+                var s = data.results[0];
+                s.isPartial(false);
+                log('Retrieved [' + entityNames.domain + '] from remote data source', s, true);
+                return locationObservable(s);
+            }
+        };
+        var getAllDomainDetailsWithSearch = function (locationObservable, search) {
+
+            var query = EntityQuery.from('Domains')
+                .select('id,name,active,address,city,state,country')
+                .where('name', 'substringof', search)
+                .orderBy('id');
+            return manager.executeQuery(query)
+                        .then(querySucceeded)
+                        .fail(queryFailed);
+
+            function querySucceeded(data) {
+                var list = partialMapper.mapDtosToEntities(
+                    manager, data.results, entityNames.domain, 'id');
+
+                if (locationObservable) {
+                    locationObservable(list);
+                }
+                log('Retrieved [' + entityNames.domain + '] from remote data source',
+                    data, true);
+
+            }
+        };
+        //----------------------------------------------------------------------------------------------------------------------------------
+
      
         //Metabase will sync with model.js 
         function configureBreezeManager() {
@@ -397,7 +520,13 @@ define([
             getACountryDetail: getACountryDetail,
             getAllCityDetailsWithSearch: getAllCityDetailsWithSearch,
             getAllStateDetailsWithSearch: getAllStateDetailsWithSearch,
-            getAllCountryDetailsWithSearch: getAllCountryDetailsWithSearch
+            getAllCountryDetailsWithSearch: getAllCountryDetailsWithSearch,
+            getAllStatesForCountry: getAllStatesForCountry,
+            getAllDomainDetails: getAllDomainDetails,
+            createDomain: createDomain,
+            getADomainDetail: getADomainDetail,
+            getAllDomainDetailsWithSearch: getAllDomainDetailsWithSearch,
+            getAllCitiesForState: getAllCitiesForState
         };
 
         return locationdatacontext;

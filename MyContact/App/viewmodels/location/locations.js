@@ -7,22 +7,27 @@
 
     var secondValue = ko.observable();
     var countries = ko.observableArray();
+    var states = ko.observableArray();
+    var cities = ko.observableArray();
+
     var selectedcountry = ko.observable();
     var selectedstate = ko.observable();
+    var selectedcity = ko.observable();
+    var selecteddomain = ko.observable();
 
+    
     var title = ko.observable();
 
-    var selectedcontact = ko.observable();
     var searchName = ko.observable();
    
     var isSaving = ko.observable(false);
    
     var counter = 0;
     var xctr = 0;
-    var ItemViewModel = function (title, text) {
+    var ItemViewModel = function (id,title, text) {
         counter += 1;
         this.id = 'tab' + counter.toString();
-        this.hash = counter;
+        this.hash = id;
         this.title = title;
         this.text = text;
         this.isActive = false;
@@ -34,23 +39,34 @@
     function activate() {
         navOptions.removeAll()
         counter = 0;
-        navOptions.push(new ItemViewModel('City', 'City'));
-        navOptions.push(new ItemViewModel('State', 'State'));
-        selectedlocationType = new ItemViewModel('Country', 'Country')
+        navOptions.push(new ItemViewModel(1,'City', 'City'));
+        navOptions.push(new ItemViewModel(2,'State', 'State'));
+        selectedlocationType = new ItemViewModel(3,'Country', 'Country')
         navOptions.push(selectedlocationType);
+        selectedlocationType = new ItemViewModel(4,'Domain', 'Domain')
+        navOptions.push(selectedlocationType);
+
         //selectedlocationType=
         loadData(selectedlocationType);
         logger.log(title + ' View Activated', null, title, true);
         return true;
     }
     var StateCity= function (obj) {
-        
-        if (selectedlocationType.hash==2)
-        {
-            secondValue = ', ' + obj.country().name();
-        }
-        if (selectedlocationType.hash == 1) {
-            secondValue = ', ' + obj.state().name();
+        secondValue = '';
+        switch (selectedlocationType.hash) {
+            case 2:
+                secondValue = ', ' + obj.country().name();
+                break;
+            case 1:
+                if (obj.state() != null) {
+                    secondValue = ', ' + obj.state().name();
+                }
+                break;
+            case 4:
+                if (obj.city() != null) {
+                    secondValue = ', ' + obj.city().name();
+                }
+                break;
         }
         return secondValue;
     }
@@ -61,22 +77,27 @@
 
     var loadData = function (xtype) {
         var result;
+      
         selectedlocationType = xtype;
         title = xtype.title;
-        xctr = 0;
         secondValue = "";
-        countries.removeAll();
-        switch(xtype.hash) {
+      
+        switch (xtype.hash) {
             case 1:
                 result = locationdatacontext.getAllCityDetails(locations);
-                result = locationdatacontext.getAllCountryDetails(countries);
                 break;
             case 2:
+                
                 result = locationdatacontext.getAllStateDetails(locations);
-                result = locationdatacontext.getAllCountryDetails(countries);
+                 
                 break;
             case 3:
                 result = locationdatacontext.getAllCountryDetails(locations);
+                break;
+            case 4:
+                
+                result = locationdatacontext.getAllDomainDetails(locations);
+               
                 break;
         }
        
@@ -92,20 +113,24 @@
         var eName = 'click';
         $(rootSelector).on(eName, selector, function () {
 
-            var contact = ko.dataFor(this);
-            callback(contact);
+            var location = ko.dataFor(this);
+            callback(location);
 
             return false;
         });
     }
 
     var gotoDetails = function (selectedLocation) {
+        if (countries().length >0)
+            countries.removeAll();
         if (selectedLocation && selectedLocation.id()) {
         
             switch (selectedlocationType.hash) {
                 case 1:
-                    locationdatacontext.getACityDetail(selectedLocation.id(), selectedlocation);
+                    locationdatacontext.getACityDetail(selectedLocation.id(), selectedcity)
                     locationdatacontext.getAllCountryDetails(countries);
+                    locationdatacontext.getAllStateDetails(states);
+                    $('#edited-article-city').modal("show");
                     break;
                 case 2:
                     locationdatacontext.getAStateDetail(selectedLocation.id(), selectedstate);
@@ -117,6 +142,14 @@
                     locationdatacontext.getACountryDetail(selectedLocation.id(), selectedcountry);
                     $('#edited-article-country').modal("show");
                     break;
+                case 4:
+                    locationdatacontext.getADomainDetail(selectedLocation.id(), selecteddomain)
+                    locationdatacontext.getAllCountryDetails(countries);
+                    locationdatacontext.getAllStateDetails(states);
+                    locationdatacontext.getAllCityDetails(cities);
+
+                    $('#edited-article-domain').modal("show");
+                    break;
             }
 
 
@@ -126,54 +159,63 @@
         }
     }
     
+    var loadstates = function (obj)
+    {
+        if (obj != null && obj.country() != null) {
+            if (obj.country().id() > 0) {
+
+                var result1 = locationdatacontext.getAllStatesForCountry(states, obj.country().id());
+            }
+
+        }
+
+    }
+    var loadcities = function (obj) {
+      
+     
+        if (obj != null && obj.state() != null) {
+           
+            if (obj.state().id() > 0) {
+
+                var result1 = locationdatacontext.getAllCitiesForState(cities, obj.state().id());
+            }
+
+        }
+
+    }
 
     var addLocation = function () {
         var dialogbox = '';
         title = 'Add ' + selectedlocationType.title;
          
-      switch (selectedlocationType.hash) {
+        switch (selectedlocationType.hash) {
             case 1:
-                locationdatacontext.createCity(selectedlocation);
+                locationdatacontext.createCity(selectedcity);
                 locationdatacontext.getAllCountryDetails(countries);
+                //locationdatacontext.getAllCountryDetails(states);
+                $('#edited-article-city').modal("show");
                 break;
             case 2:
                 locationdatacontext.createState(selectedstate);
                 locationdatacontext.getAllCountryDetails(countries);
                 $('#edited-article-state').modal("show");
                 break;
-          case 3:
-              
-              locationdatacontext.createCountry(selectedcountry);
+            case 3:
+
+                locationdatacontext.createCountry(selectedcountry);
                 $('#edited-article-country').modal("show");
                 break;
+            case 4:
+                locationdatacontext.createDomain(selecteddomain);
+                locationdatacontext.getAllCountryDetails(countries);
+                $('#edited-article-domain').modal("show");
+                break;
+
         }
-        
-
-
-     
-     
-
-            //var url = '#/contactadd/';
-            //router.navigate(url);
-    }
-
-    var setCbo1 = function () {
-
-        //var xprop;
-        ////alert('');
-        //switch (selectedlocationType.hash) {
-        //    case  1:
-        //        return scountry;
-        //        break;
-        //    case 2:
-        //        return selectedlocation.countryId;
-        //        break;
-        //    case 3:
-        //        return scountry;
-        //        break;
-        //}
 
     }
+
+    
 
     //Search Command
     var search = function () {
@@ -188,8 +230,12 @@
             case 3:
                 locationdatacontext.getAllCountryDetailsWithSearch(locations, searchName());
                 break;
+            case 4:
+                locationdatacontext.getAllDomainDetailsWithSearch(locations, searchName());
+                break;
+
         }
-        //locationdatacontext.getAllContactDetailsWithSearch(locations, searchName());
+      
 
     };
 
@@ -203,7 +249,7 @@
     //Cancel Command
     var cancel = function (complete) {
         loadData(selectedlocationType);
-        $('#edited-article-country').modal("hide");
+        hidepanel();
     };
 
 
@@ -213,23 +259,39 @@
     });
 
    
+    var hidepanel = function () {
+        switch (selectedlocationType.hash) {
+            case 1:
+                $('#edited-article-city').modal("hide");
+                break;
+            case 2:
+                $('#edited-article-state').modal("hide");
+                break;
+            case 3:
+                $('#edited-article-country').modal("hide");
+                break;
+            case 4:
+                $('#edited-article-domain').modal("hide");
+                break;
+
+        }
+
+    }
 
 
     //Save Command
     var save = function () {
         isSaving(true);
-        //alert(selectedstate().countryId());
-        //alert(selectedstate().country().id());
-        //selectedstate.countryId(selectedstate().country().id());
-        //alert(selectedstate().countryId());
+   
 
         locationdatacontext.saveChanges()
             .then(goToEditView).fin(complete);
 
         function goToEditView(result) {
-           
+            
             loadData(selectedlocationType);
-            $('#edited-article-country').modal("hide");
+         
+            hidepanel();
         }
 
         function complete() {
@@ -250,7 +312,7 @@
                 .then(function (selectedOption) {
                     if (selectedOption === 'Yes') {
                         locationdatacontext.cancelChanges();
-
+                        hidepanel();
                     }
                     return selectedOption;
                 });
@@ -277,17 +339,21 @@
         cancel: cancel,
         hasChanges: hasChanges,
         save: save,
-        selectedcontact: selectedcontact,
         loadData: loadData,
+        loadstates: loadstates,
         selectedlocation: selectedlocation,
         secondValue: secondValue,
         StateCity: StateCity,
         countries: countries,
+        states: states,
         selectedlocationType: selectedlocationType,
         selectedlocationTypeint: selectedlocationTypeint,
         selectedcountry: selectedcountry,
         selectedstate: selectedstate,
-        setCbo1: setCbo1
+        selectedcity: selectedcity,
+        selecteddomain: selecteddomain,
+        cities: cities,
+        loadcities: loadcities
     };
 
     return vm;

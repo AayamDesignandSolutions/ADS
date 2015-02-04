@@ -19,6 +19,7 @@
     function activate() {
         initLookups();
         issuedatacontext.createIssue(issue);
+      
     }
     //Deactivate method will call while page unloading
     var deactivate = function () {

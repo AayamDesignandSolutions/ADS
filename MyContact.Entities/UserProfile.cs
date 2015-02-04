@@ -18,7 +18,9 @@ namespace MyContact.Entities
         public string DisplayName { get; set; }
         public int DomainId { get; set; }
         public string Address { get; set; }
-        public int City { get; set; }
+        public int CityId { get; set; }
+        public int StateId { get; set; }
+        public int CountryId { get; set; }
         public string Zip { get; set; }
         public string Phone1 { get; set; }
         public string Phone2 { get; set; }
@@ -27,8 +29,9 @@ namespace MyContact.Entities
         public Nullable<System.DateTime> DateOfBirth { get; set; }
         public System.DateTime CreatedDate { get; set; }
     
-        public virtual City City1 { get; set; }
-        public virtual City City2 { get; set; }
+        public virtual City City { get; set; }
+        public virtual Country Country { get; set; }
+        public virtual State State { get; set; }
         public virtual User User { get; set; }
     }
 }

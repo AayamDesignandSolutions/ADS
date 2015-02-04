@@ -17,19 +17,19 @@ namespace MyContact.Entities
         public User()
         {
             this.Issues = new HashSet<Issue>();
-            this.TimeSpents = new HashSet<TimeSpent>();
             this.IssueComments = new HashSet<IssueComment>();
+            this.TimeSpents = new HashSet<TimeSpent>();
         }
     
         public int Id { get; set; }
         public string UserName { get; set; }
+        public string DisplayName { get; set; }
         public bool Active { get; set; }
         public System.DateTime CreateDate { get; set; }
-        public string DisplayName { get; set; }
     
         public virtual ICollection<Issue> Issues { get; set; }
-        public virtual ICollection<TimeSpent> TimeSpents { get; set; }
         public virtual ICollection<IssueComment> IssueComments { get; set; }
+        public virtual ICollection<TimeSpent> TimeSpents { get; set; }
         public virtual UserProfile UserProfile { get; set; }
     }
 }

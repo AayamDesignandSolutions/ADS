@@ -17,6 +17,8 @@ namespace MyContact.Entities
         public State()
         {
             this.Cities = new HashSet<City>();
+            this.Domains = new HashSet<Domain>();
+            this.UserProfiles = new HashSet<UserProfile>();
         }
     
         public int Id { get; set; }
@@ -26,5 +28,7 @@ namespace MyContact.Entities
     
         public virtual ICollection<City> Cities { get; set; }
         public virtual Country Country { get; set; }
+        public virtual ICollection<Domain> Domains { get; set; }
+        public virtual ICollection<UserProfile> UserProfiles { get; set; }
     }
 }

@@ -1,13 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Runtime.Serialization;
+using System.Security.Principal;
 
 namespace MyContact.Entities
 {
     public partial class AccessorEntities : DbContext
     {
+        public static User CurrentUser { get; set; }
+
         public class RegisterExternalLoginModel
         {
             [Required]
@@ -76,9 +81,273 @@ namespace MyContact.Entities
             public string ProviderUserId { get; set; }
         }
     }
-    //public partial class TimeSpent
-    //{
-    //    public string IssueSubject { get; set; }
-    //    public string UserName { get; set; }
-    //}
+    [Serializable]
+    [DataContract]
+    public class CustomPrincipalSerializeModel
+    {
+        #region Private Members
+
+        /// <summary>
+        /// The user identifier
+        /// </summary>
+        private int userId;
+
+        /// <summary>
+        /// The user name
+        /// </summary>
+        private string userName;
+
+        /// <summary>
+        /// user id at DB
+        /// </summary>
+        private int id;
+
+        /// <summary>
+        /// The allowed modules
+        /// </summary>
+        private int domainId;
+
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets or sets the user identifier.
+        /// </summary>
+        /// <value>
+        /// The user identifier.
+        /// </value>
+        public int UserId
+        {
+            get
+            {
+                return this.userId;
+            }
+
+            set
+            {
+                this.userId = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the username.
+        /// </summary>
+        /// <value>
+        /// The username.
+        /// </value>
+        public string Username
+        {
+            get
+            {
+                return this.userName;
+            }
+
+            set
+            {
+                this.userName = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the allowed modules.
+        /// </summary>
+        /// <value>
+        /// The allowed modules.
+        /// </value>
+        public int DomainId
+        {
+            get
+            {
+                return this.domainId;
+            }
+
+            set
+            {
+                this.domainId = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the Id
+        /// </summary>
+        /// <value>
+        /// returns  Id
+        /// </value>
+        public int Id
+        {
+            get
+            {
+                return this.id;
+            }
+
+            set
+            {
+                this.id = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets product group code for user
+        /// </summary>
+      
+
+        #endregion
+    }
+
+    public class CustomPrincipal : ICustomPrincipal
+    {
+        #region Private Members
+
+        /// <summary>
+        /// The user identifier
+        /// </summary>
+        private int userId;
+
+        /// <summary>
+        /// The user name
+        /// </summary>
+        private string userName;
+
+        /// <summary>
+        /// The identity
+        /// </summary>
+        private IIdentity identity;
+
+        /// <summary>
+        /// The allowed modules
+        /// </summary>
+        private int domainId;
+
+        /// <summary>
+        /// id of user in local table
+        /// </summary>
+        private int id;
+
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomPrincipal"/> class.
+        /// </summary>
+        /// <param name="userName">The user name.</param>
+        public CustomPrincipal(string userName)
+        {
+            this.Identity = new GenericIdentity(userName);
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the identity of the current principal.
+        /// </summary>
+        /// <returns>The <see cref="T:System.Security.Principal.IIdentity" /> object associated with the current principal.</returns>
+        public IIdentity Identity
+        {
+            get
+            {
+                return this.identity;
+            }
+
+            private set
+            {
+                this.identity = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the user identifier.
+        /// </summary>
+        /// <value>
+        /// The user identifier.
+        /// </value>
+        public int UserId
+        {
+            get
+            {
+                return this.userId;
+            }
+
+            set
+            {
+                this.userId = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the username.
+        /// </summary>
+        /// <value>
+        /// The username.
+        /// </value>
+        public string Username
+        {
+            get
+            {
+                return this.userName;
+            }
+
+            set
+            {
+                this.userName = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the allowed modules.
+        /// </summary>
+        /// <value>
+        /// The allowed modules.
+        /// </value>
+        public int DomainId
+        {
+            get
+            {
+                return this.domainId;
+            }
+
+            set
+            {
+                this.domainId = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the id of user in local table
+        /// </summary>
+        public int Id
+        {
+            get
+            {
+                return this.id;
+            }
+
+            set
+            {
+                this.id = value;
+            }
+        }
+
+       
+        
+
+        /// <summary>
+        /// Determines whether the current principal belongs to the specified role.
+        /// </summary>
+        /// <param name="role">The name of the role for which to check membership.</param>
+        /// <returns>
+        /// true if the current principal is a member of the specified role; otherwise, false.
+        /// </returns>
+        public bool IsInRole(string role)
+        {
+            return false;
+        }
+
+        #endregion
+    }
 }

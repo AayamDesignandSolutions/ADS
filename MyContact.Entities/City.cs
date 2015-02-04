@@ -18,17 +18,17 @@ namespace MyContact.Entities
         {
             this.Domains = new HashSet<Domain>();
             this.UserProfiles = new HashSet<UserProfile>();
-            this.UserProfiles1 = new HashSet<UserProfile>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public int StateId { get; set; }
+        public int CountryId { get; set; }
         public System.DateTime CreatedDate { get; set; }
     
         public virtual State State { get; set; }
         public virtual ICollection<Domain> Domains { get; set; }
         public virtual ICollection<UserProfile> UserProfiles { get; set; }
-        public virtual ICollection<UserProfile> UserProfiles1 { get; set; }
+        public virtual Country Country { get; set; }
     }
 }

@@ -4,35 +4,39 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2abd32acc97249cf9104520e3a0f243a" Name="Diagram1">
-        <EntityTypeShape EntityType="AccessorModel.Contact" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AccessorModel.History" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AccessorModel.Issue" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AccessorModel.User" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+      <Diagram DiagramId="7f1a8d0acffc498cb7f8945db19df504" Name="Diagram1">
+        <EntityTypeShape EntityType="AccessorModel.City" Width="1.5" PointX="5.25" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="AccessorModel.Contact" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AccessorModel.Country" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="AccessorModel.Domain" Width="1.5" PointX="7.5" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AccessorModel.DomainGroupUser" Width="1.5" PointX="9.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AccessorModel.History" Width="1.5" PointX="2.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AccessorModel.Issue" Width="1.5" PointX="10.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AccessorModel.IssueComment" Width="1.5" PointX="12.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="AccessorModel.IssueWatcher" Width="1.5" PointX="12.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AccessorModel.State" Width="1.5" PointX="3" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="AccessorModel.TimeSpent" Width="1.5" PointX="15.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AccessorModel.User" Width="1.5" PointX="8.25" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AccessorModel.UserProfile" Width="1.5" PointX="10.5" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="AccessorModel.WorkingGroup" Width="1.5" PointX="9.75" PointY="13.625" IsExpanded="true" />
+        <AssociationConnector Association="AccessorModel.FK_City_State" ManuallyRouted="false" />
+        <AssociationConnector Association="AccessorModel.FK_Domain_City1" ManuallyRouted="false" />
+        <AssociationConnector Association="AccessorModel.FK_UserProfile_City2" ManuallyRouted="false" />
+        <AssociationConnector Association="AccessorModel.FK_Domain_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="AccessorModel.FK_State_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="AccessorModel.FK_UserProfile_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="AccessorModel.FK_Domain_State" ManuallyRouted="false" />
+        <AssociationConnector Association="AccessorModel.FK_DomainGroupUser_Domain" ManuallyRouted="false" />
+        <AssociationConnector Association="AccessorModel.FK_WorkingGroup_Domain" ManuallyRouted="false" />
         <AssociationConnector Association="AccessorModel.FK_Issue_User" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="AccessorModel.TimeSpent" Width="1.5" PointX="6.3436376984900038" PointY="17.789093741117554" />
-        <AssociationConnector Association="AccessorModel.FK_TimeSpent_Issue" />
-        <AssociationConnector Association="AccessorModel.FK_TimeSpent_User" />
-        <EntityTypeShape EntityType="AccessorModel.City" Width="1.5" PointX="2.973770478262459" PointY="6.664014327649034" />
-        <EntityTypeShape EntityType="AccessorModel.Country" Width="1.5" PointX="2.4371529959315215" PointY="30.407342254373869" />
-        <EntityTypeShape EntityType="AccessorModel.Domain" Width="1.5" PointX="2.2380890540024678" PointY="21.3142977903198" />
-        <EntityTypeShape EntityType="AccessorModel.DomainGroupUser" Width="1.5" PointX="5.8268933286084295" PointY="9.2025097800430427" />
-        <EntityTypeShape EntityType="AccessorModel.IssueComment" Width="1.5" PointX="8.5502191337524991" PointY="2.3455517600968254" />
-        <EntityTypeShape EntityType="AccessorModel.IssueWatcher" Width="1.5" PointX="11.698076259204221" PointY="24.751141663990516" />
-        <EntityTypeShape EntityType="AccessorModel.State" Width="1.5" PointX="3.54288717524283" PointY="7.09548020693263" />
-        <EntityTypeShape EntityType="AccessorModel.UserProfile" Width="1.5" PointX="5.4658439780892074" PointY="18.324219965526936" />
-        <EntityTypeShape EntityType="AccessorModel.WorkingGroup" Width="1.5" PointX="7.9229679479836337" PointY="6.59395408937426" />
-        <AssociationConnector Association="AccessorModel.FK_City_State" />
-        <AssociationConnector Association="AccessorModel.FK_Domain_City" />
-        <AssociationConnector Association="AccessorModel.FK_UserProfile_City" />
-        <AssociationConnector Association="AccessorModel.FK_UserProfile_City1" />
-        <AssociationConnector Association="AccessorModel.FK_State_Country" />
-        <AssociationConnector Association="AccessorModel.FK_DomainGroupUser_Domain" />
-        <AssociationConnector Association="AccessorModel.FK_WorkingGroup_Domain" />
-        <AssociationConnector Association="AccessorModel.FK_IssueComment_Issue" />
-        <AssociationConnector Association="AccessorModel.FK_IssueWatcher_Issue" />
-        <AssociationConnector Association="AccessorModel.FK_IssueComment_User" />
-        <AssociationConnector Association="AccessorModel.FK_UserProfile_User" />
+        <AssociationConnector Association="AccessorModel.FK_IssueComment_Issue" ManuallyRouted="false" />
+        <AssociationConnector Association="AccessorModel.FK_IssueWatcher_Issue" ManuallyRouted="false" />
+        <AssociationConnector Association="AccessorModel.FK_TimeSpent_Issue" ManuallyRouted="false" />
+        <AssociationConnector Association="AccessorModel.FK_IssueComment_User" ManuallyRouted="false" />
+        <AssociationConnector Association="AccessorModel.FK_UserProfile_State" ManuallyRouted="false" />
+        <AssociationConnector Association="AccessorModel.FK_TimeSpent_User" ManuallyRouted="false" />
+        <AssociationConnector Association="AccessorModel.FK_UserProfile_User" ManuallyRouted="false" />
+        <AssociationConnector Association="AccessorModel.FK_City_Country" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

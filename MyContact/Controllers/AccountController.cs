@@ -9,6 +9,8 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using MyContact.Filters;
 using MyContact.Entities;
+using System.Web.Script.Serialization;
+using System.Web;
 
 namespace MyContact.Controllers
 {
@@ -36,8 +38,44 @@ namespace MyContact.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                
-                return RedirectToLocal(returnUrl);
+                ////SimpleMembershipProvider p = new SimpleMembershipProvider();
+           
+                ////System.Web.Security.MembershipUser user = p.GetUser(Base64Encode(model.UserName), true);
+           
+                //BreezeController b = new BreezeController();
+                //IQueryable<User> u = b.GetCurrentUserDetails((int)user.ProviderUserKey);
+                //User uf = u.FirstOrDefault<User>();
+                //if (!uf.Active)
+                //{
+                //    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                //    return View(model);
+                //}
+                //else
+                //{
+                //    CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
+                //    serializeModel.UserId = new Guid();
+                //    serializeModel.Username = uf.DisplayName;
+                //    serializeModel.Id = uf.Id;
+
+                //    JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+                //    string userData = serializer.Serialize(serializeModel);
+
+                //    FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+                //             1,
+                //             uf.DisplayName,
+                //             DateTime.Now,
+                //             DateTime.Now.Add(FormsAuthentication.Timeout),
+                //             false,
+                //             userData);
+
+                //    string encTicket = FormsAuthentication.Encrypt(authTicket);
+                //    HttpCookie formCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+
+                //    Response.Cookies.Add(formCookie);
+
+                    return RedirectToLocal(returnUrl);
+               // }
             }
 
             // If we got this far, something failed, redisplay form
@@ -396,5 +434,15 @@ namespace MyContact.Controllers
             }
         }
         #endregion
+        public static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
+        public static string Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+        }
     }
 }

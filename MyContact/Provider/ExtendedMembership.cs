@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
+using System.Web.Security;
 using MyContact.Controllers;
 using MyContact.Entities;
 using WebMatrix.WebData;
@@ -10,6 +12,7 @@ namespace MyContact.Provider
 {
     public class ExtendedMembership : SimpleMembershipProvider
     {
+  
 
         public override bool ValidateUser(string login, string password)
         {
@@ -20,14 +23,19 @@ namespace MyContact.Provider
             //return base.ValidateUser(actualUsername, password);
 
           result= base.ValidateUser(Base64Encode(login), password);
-          if (result)
-          {
-              System.Web.Security.MembershipUser user = base.GetUser(Base64Encode(login), true);
-              BreezeController b = new BreezeController();
-              IQueryable<User> u = b.GetCurrentUserDetails((int)user.ProviderUserKey);
-              result = u.FirstOrDefault<User>().Active == true;
 
-          }
+          System.Web.Security.MembershipUser user = base.GetUser(Base64Encode(login), true);
+
+          //if (result)
+          //{
+          //    System.Web.Security.MembershipUser user = base.GetUser(Base64Encode(login), true);
+          //    BreezeController b = new BreezeController();
+          //    IQueryable<User> u = b.GetCurrentUserDetails((int)user.ProviderUserKey);
+          //    User uf=u.FirstOrDefault<User>();
+          //    result = uf.Active;
+             
+ 
+          //}
               return result; 
             //return true;
 

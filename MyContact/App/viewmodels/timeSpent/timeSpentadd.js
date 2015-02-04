@@ -52,12 +52,12 @@
             .then(goToEditView).fin(complete);
 
         function goToEditView(result) {
-            alert('navigate');
+            
             router.navigate('timeSpent');
         }
 
         function complete() {
-            alert('complete');
+           
             isSaving(false);
         }
     };

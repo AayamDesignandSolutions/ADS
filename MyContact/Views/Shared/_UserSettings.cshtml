@@ -1,10 +1,47 @@
-﻿@if (Request.IsAuthenticated) {
+﻿@functions{
+    public object createcookie(){
+        
+        MyContact.Controllers.BreezeController b = new MyContact.Controllers.BreezeController();
+        
+        IQueryable<MyContact.Entities.User> u = b.GetCurrentUserDetails(User.Identity.Name);
+        MyContact.Entities.AccessorEntities.CurrentUser = u.FirstOrDefault<MyContact.Entities.User>();
+
+        MyContact.Entities.CustomPrincipalSerializeModel serializeModel = new MyContact.Entities.CustomPrincipalSerializeModel();
+        serializeModel.UserId = MyContact.Entities.AccessorEntities.CurrentUser.Id;
+        serializeModel.Username = Base64Decode(MyContact.Entities.AccessorEntities.CurrentUser.UserName);
+        serializeModel.Id = MyContact.Entities.AccessorEntities.CurrentUser.Id;
+
+        System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+
+        string userData = serializer.Serialize(serializeModel);
+
+        FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+                 1,
+                 Base64Decode(MyContact.Entities.AccessorEntities.CurrentUser.UserName),
+                 DateTime.Now,
+                 DateTime.Now.Add(FormsAuthentication.Timeout),
+                 false,
+                 userData);
+
+        string encTicket = FormsAuthentication.Encrypt(authTicket);
+        HttpCookie formCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+        
+        Response.Cookies.Add(formCookie);
+        return MyContact.Entities.AccessorEntities.CurrentUser.DisplayName;
+     }
+    public static string Base64Decode(string base64EncodedData)
+    {
+        var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+        return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+    }
+}@if (Request.IsAuthenticated) {
  <div class="usersettings" style="height:100px">
      <div class="usersettingsleft" style="text-align: right">
-           Hello @Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: new { area = "" }, htmlAttributes: new { @class = "username", title = "Manage" })
+               
+           Hello @Html.ActionLink(createcookie().ToString() , "Manage", "Account", routeValues: new { area = "" }, htmlAttributes: new { @class = "username", title = "Manage" })
      </div>
      <div class="usersettingsleft" style="text-align: right">
-          @using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm" })) {
+          @using (Html.BeginForm("Login", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm" })) {
             @Html.AntiForgeryToken()
             <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
         }

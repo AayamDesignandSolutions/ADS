@@ -16,13 +16,19 @@ namespace MyContact.Entities
     {
         public Country()
         {
+            this.Domains = new HashSet<Domain>();
             this.States = new HashSet<State>();
+            this.UserProfiles = new HashSet<UserProfile>();
+            this.Cities = new HashSet<City>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public System.DateTime CreatedDate { get; set; }
     
+        public virtual ICollection<Domain> Domains { get; set; }
         public virtual ICollection<State> States { get; set; }
+        public virtual ICollection<UserProfile> UserProfiles { get; set; }
+        public virtual ICollection<City> Cities { get; set; }
     }
 }

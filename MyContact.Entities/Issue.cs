@@ -16,9 +16,9 @@ namespace MyContact.Entities
     {
         public Issue()
         {
-            this.TimeSpents = new HashSet<TimeSpent>();
             this.IssueComments = new HashSet<IssueComment>();
             this.IssueWatchers = new HashSet<IssueWatcher>();
+            this.TimeSpents = new HashSet<TimeSpent>();
         }
     
         public int Id { get; set; }
@@ -28,8 +28,8 @@ namespace MyContact.Entities
         public System.DateTime CreatedDate { get; set; }
     
         public virtual User User { get; set; }
-        public virtual ICollection<TimeSpent> TimeSpents { get; set; }
         public virtual ICollection<IssueComment> IssueComments { get; set; }
         public virtual ICollection<IssueWatcher> IssueWatchers { get; set; }
+        public virtual ICollection<TimeSpent> TimeSpents { get; set; }
     }
 }

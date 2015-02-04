@@ -24,10 +24,14 @@ namespace MyContact.Entities
         public string Name { get; set; }
         public bool Active { get; set; }
         public string Address { get; set; }
-        public int City { get; set; }
+        public int CityId { get; set; }
+        public int StateId { get; set; }
+        public int CountryId { get; set; }
         public System.DateTime CreatedDate { get; set; }
     
-        public virtual City City1 { get; set; }
+        public virtual City City { get; set; }
+        public virtual Country Country { get; set; }
+        public virtual State State { get; set; }
         public virtual ICollection<DomainGroupUser> DomainGroupUsers { get; set; }
         public virtual ICollection<WorkingGroup> WorkingGroups { get; set; }
     }
